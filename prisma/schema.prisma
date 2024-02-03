@@ -6,6 +6,107 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// Will be updated based on authentication strategy
+model User {
+  id       String  @id @default(uuid())
+  name     String
+  email    String  @unique
+  password String
+  image    String?
+
+  // One-to-one conversations
+  conversationsInitiated Conversation[] @relation("Initiator")
+  conversationsReceived  Conversation[] @relation("Recipient")
+
+  // Group conversations
+  groupsCreated  Group[] @relation("GroupCreator")
+  adminOfGroups  Group[] @relation("GroupAdmin")
+  memberOfGroups Group[] @relation("GroupMembers")
+
+  // Friend requests
+  requestsSent     Request[] @relation("RequestSender")
+  requestsReceived Request[] @relation("RequestReceiver")
+  friends          User[]    @relation("Friends")
+  friendsOf        User[]    @relation("Friends")
+
+  // Messages
+  messagesSent     Message[] @relation("Sender")
+  messagesReceived Message[] @relation("Recipient")
+  messagesRead     Message[] @relation("ReadBy")
+
+  createdAt DateTime @default(now())
+}
+
+// For friend requests
+model Request {
+  id String @id @default(uuid())
+
+  senderId   String
+  sender     User   @relation("RequestSender", fields: [senderId], references: [id])
+  receiverId String
+  receiver   User   @relation("RequestReceiver", fields: [receiverId], references: [id])
+
+  accepted Boolean @default(false)
+
+  createdAt DateTime @default(now())
+}
+
+// For one-to-one conversations
+model Conversation {
+  id   String @id @default(uuid())
+  name String
+
+  initiatorId String
+  initiator   User    @relation("Initiator", fields: [initiatorId], references: [id])
+  recipientId String?
+  recipient   User?   @relation("Recipient", fields: [recipientId], references: [id])
+
+  messages Message[] @relation("Messages")
+
+  createdAt DateTime @default(now())
+
+  @@unique([initiatorId, recipientId])
+}
+
+// For group conversations
+model Group {
+  id   String @id @default(uuid())
+  name String
+
+  creatorId String
+  creator   User   @relation("GroupCreator", fields: [creatorId], references: [id])
+
+  admins  User[] @relation("GroupAdmin")
+  members User[] @relation("GroupMembers")
+
+  messages Message[] @relation("Messages")
+
+  createdAt DateTime @default(now())
+}
+
+model Message {
+  id      String @id @default(uuid())
+  content String
+
+  senderId String
+  sender   User   @relation("Sender", fields: [senderId], references: [id])
+
+  // For one-to-one conversations
+  conversationId String?
+  conversation   Conversation? @relation("Messages", fields: [conversationId], references: [id])
+  recipientId    String?
+  recipient      User?         @relation("Recipient", fields: [recipientId], references: [id])
+
+  // For group conversations
+  groupId String?
+  group   Group?  @relation("Messages", fields: [groupId], references: [id])
+
+  readBy User[] @relation("ReadBy")
+
+  createdAt DateTime @default(now())
 }
