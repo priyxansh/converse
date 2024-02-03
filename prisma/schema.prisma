@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -29,10 +26,10 @@ model User {
   memberOfGroups Group[] @relation("GroupMembers")
 
   // Friend requests
-  requestsSent     Request[] @relation("RequestSender")
-  requestsReceived Request[] @relation("RequestReceiver")
-  friends          User[]    @relation("Friends")
-  friendsOf        User[]    @relation("Friends")
+  requestsSent     FriendRequest[] @relation("FriendRequestSender")
+  requestsReceived FriendRequest[] @relation("FriendRequestReceiver")
+  friends          User[]          @relation("Friends")
+  friendsOf        User[]          @relation("Friends")
 
   // Messages
   messagesSent     Message[] @relation("Sender")
@@ -43,13 +40,13 @@ model User {
 }
 
 // For friend requests
-model Request {
+model FriendRequest {
   id String @id @default(uuid())
 
   senderId   String
-  sender     User   @relation("RequestSender", fields: [senderId], references: [id])
+  sender     User   @relation("FriendRequestSender", fields: [senderId], references: [id])
   receiverId String
-  receiver   User   @relation("RequestReceiver", fields: [receiverId], references: [id])
+  receiver   User   @relation("FriendRequestReceiver", fields: [receiverId], references: [id])
 
   accepted Boolean @default(false)
 
@@ -62,9 +59,9 @@ model Conversation {
   name String
 
   initiatorId String
-  initiator   User    @relation("Initiator", fields: [initiatorId], references: [id])
-  recipientId String?
-  recipient   User?   @relation("Recipient", fields: [recipientId], references: [id])
+  initiator   User   @relation("Initiator", fields: [initiatorId], references: [id])
+  recipientId String
+  recipient   User   @relation("Recipient", fields: [recipientId], references: [id])
 
   messages Message[] @relation("Messages")
 
