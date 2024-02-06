@@ -2,7 +2,7 @@
 
 import { useTheme } from "next-themes";
 import { Button } from "../ui/button";
-import { MoonIcon, SunIcon } from "lucide-react";
+import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 
 type ThemeTogglerProps = {
   className?: string;
@@ -26,7 +26,11 @@ const ThemeToggler = ({ className }: ThemeTogglerProps) => {
         theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
       }
     >
-      {theme === "dark" ? <SunIcon size={18} /> : <MoonIcon size={18} />}
+      {theme === "dark" ? (
+        <SunIcon className="w-4 h-4" />
+      ) : (
+        <MoonIcon className="w-4 h-4" />
+      )}
     </Button>
   );
 };
