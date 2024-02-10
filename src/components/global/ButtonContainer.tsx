@@ -1,5 +1,5 @@
 type ButtonContainerProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
 };
 

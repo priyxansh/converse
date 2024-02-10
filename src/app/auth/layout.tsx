@@ -9,17 +9,17 @@ type AuthLayoutProps = {
 
 const AuthLayout = ({ children }: AuthLayoutProps) => {
   return (
-    <>
-      <nav className="fixed p-4 flex justify-between items-center w-full">
+    <div className="w-full min-h-screen-svh flex flex-col">
+      <nav className="p-4 flex justify-between items-center w-full">
         <HomeButton />
         <ThemeToggler />
       </nav>
-      <main className="px-4 min-h-screen-svh flex flex-col justify-center items-center">
+      <main className="px-4 flex-grow flex flex-col justify-center items-center">
         <Container>
           <Card className="max-w-lg mx-auto">{children}</Card>
         </Container>
       </main>
-    </>
+    </div>
   );
 };
 
