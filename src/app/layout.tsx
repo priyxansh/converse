@@ -3,7 +3,7 @@ import { Nunito_Sans } from "next/font/google";
 import "./globals.css";
 import Provider from "@/providers/Provider";
 
-const nunitoSans = Nunito_Sans({ subsets: ["latin"], display: "swap" });
+const nunitoSans = Nunito_Sans({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
