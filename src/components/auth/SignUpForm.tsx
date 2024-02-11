@@ -8,6 +8,7 @@ import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import PasswordVisibilityToggler from "./PasswordVisibilityToggler";
 import { usePasswordVisibility } from "@/hooks/usePasswordVisibility";
+import { checkExistingUserByEmail } from "@/actions/checkExistingUserByEmail";
 
 import {
   Form,
@@ -35,8 +36,20 @@ const SignUpForm = ({}: SignUpFormProps) => {
   } = usePasswordVisibility();
 
   // Form submit handler
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (data: z.infer<typeof signupFormSchema>) => {
+    const { email } = data;
+
+    // Check if user with the provided email already exists
+    const isUserExisting = await checkExistingUserByEmail(email);
+
+    // Set error if user already exists
+    if (isUserExisting) {
+      form.setError("email", {
+        type: "manual",
+        message: "User with this email already exists",
+      });
+      return;
+    }
   };
 
   return (
@@ -108,9 +121,9 @@ const SignUpForm = ({}: SignUpFormProps) => {
             </FormItem>
           )}
         />
-          <Button type="submit" className="w-full mt-2">
-            Create Account
-          </Button>
+        <Button type="submit" className="w-full mt-2">
+          Create Account
+        </Button>
       </form>
     </Form>
   );
