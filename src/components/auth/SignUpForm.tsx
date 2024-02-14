@@ -10,7 +10,6 @@ import PasswordVisibilityToggler from "./PasswordVisibilityToggler";
 import { usePasswordVisibility } from "@/hooks/usePasswordVisibility";
 import { authenticate } from "@/actions/authenticate";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 
 import {
   Form,
@@ -24,8 +23,6 @@ import {
 type SignUpFormProps = {};
 
 const SignUpForm = ({}: SignUpFormProps) => {
-  const router = useRouter();
-
   // Initialising the form with react-hook-form and zod
   const form = useForm<z.infer<typeof signupFormSchema>>({
     resolver: zodResolver(signupFormSchema),
@@ -66,9 +63,6 @@ const SignUpForm = ({}: SignUpFormProps) => {
       toast.error("An error occurred while signing you up. Please try again.");
       return;
     }
-
-    // Redirect to complete profile page
-    router.push("/auth/complete-profile");
   };
 
   return (

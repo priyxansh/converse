@@ -50,7 +50,8 @@ export const authenticate = async (options: AuthenticateOptions) => {
         await signIn("credentials", {
           id: newUser.id,
           email: newUser.email,
-          redirect: false,
+          redirect: true,
+          redirectTo: "/auth/complete-profile",
         });
 
         return {
@@ -59,6 +60,11 @@ export const authenticate = async (options: AuthenticateOptions) => {
       }
     }
   } catch (error: any) {
+    // Allow server side redirects. Subject to NextJS API changes in future.
+    if (error.message === "NEXT_REDIRECT") {
+      throw error;
+    }
+
     return {
       success: false,
       error: {
