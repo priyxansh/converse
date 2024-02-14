@@ -6,6 +6,11 @@ import { checkExistingUserByEmail } from "./checkExistingUserByEmail";
 import { userCredentialsSchema } from "@/zod-schemas/userCredentialsSchema";
 import prisma from "@/lib/prisma";
 
+/**
+ * Authenticates the user
+ * @param options - The options to authenticate the user
+ * @returns Returns success and error if any
+ */
 export const authenticate = async (options: AuthenticateOptions) => {
   try {
     if (options.provider === "credentials") {
