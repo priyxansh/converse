@@ -11,10 +11,12 @@ datasource db {
 // Will be updated based on authentication strategy
 model User {
   id       String  @id @default(uuid())
-  name     String
+  name     String?
   email    String  @unique
   password String
   image    String?
+
+  isProfileComplete Boolean @default(false)
 
   // One-to-one conversations
   conversationsInitiated Conversation[] @relation("Initiator")
