@@ -8,7 +8,9 @@ import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import PasswordVisibilityToggler from "./PasswordVisibilityToggler";
 import { usePasswordVisibility } from "@/hooks/usePasswordVisibility";
-import { checkExistingUserByEmail } from "@/actions/checkExistingUserByEmail";
+import { authenticate } from "@/actions/authenticate";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 import {
   Form,
@@ -22,6 +24,8 @@ import {
 type SignUpFormProps = {};
 
 const SignUpForm = ({}: SignUpFormProps) => {
+  const router = useRouter();
+
   // Initialising the form with react-hook-form and zod
   const form = useForm<z.infer<typeof signupFormSchema>>({
     resolver: zodResolver(signupFormSchema),
@@ -37,19 +41,34 @@ const SignUpForm = ({}: SignUpFormProps) => {
 
   // Form submit handler
   const onSubmit = async (data: z.infer<typeof signupFormSchema>) => {
-    const { email } = data;
+    const { email, password } = data;
 
-    // Check if user with the provided email already exists
-    const isUserExisting = await checkExistingUserByEmail(email);
+    const signInResult = await authenticate({
+      isSignUp: true,
+      provider: "credentials",
+      credentials: {
+        email: email,
+        password: password,
+      },
+    });
 
     // Set error if user already exists
-    if (isUserExisting) {
+    if (signInResult?.error?.name === "UserExistsError") {
       form.setError("email", {
         type: "manual",
         message: "User with this email already exists",
       });
       return;
     }
+
+    // Show toast for other errors
+    if (signInResult?.error) {
+      toast.error("An error occurred while signing you up. Please try again.");
+      return;
+    }
+
+    // Redirect to complete profile page
+    router.push("/auth/complete-profile");
   };
 
   return (

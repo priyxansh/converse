@@ -1,21 +1,8 @@
 import { z } from "zod";
+import { userCredentialsSchema } from "./userCredentialsSchema";
 
-export const signupFormSchema = z
-  .object({
-    email: z
-      .string({
-        required_error: "Email is required",
-      })
-      .email("Invalid email address"),
-    password: z
-      .string({
-        required_error: "Password is required",
-      })
-      .min(8, "Password must be at least 8 characters long")
-      .regex(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
-        "Password must contain at least one uppercase letter, one lowercase letter, and one number"
-      ),
+export const signupFormSchema = userCredentialsSchema
+  .extend({
     confirmPassword: z
       .string({
         required_error: "Password confirmation is required",
