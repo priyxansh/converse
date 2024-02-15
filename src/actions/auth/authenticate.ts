@@ -6,6 +6,8 @@ import { checkExistingUserByEmail } from "./checkExistingUserByEmail";
 import { userCredentialsSchema } from "@/zod-schemas/userCredentialsSchema";
 import { getUserByEmail } from "./getUserByEmail";
 import { createUser } from "./createUser";
+import { hashPassword } from "./hashPassword";
+import { comparePassword } from "./comparePassword";
 
 /**
  * Authenticates the user
@@ -44,10 +46,13 @@ export const authenticate = async (options: AuthenticateOptions) => {
           throw error;
         }
 
+        // Hash the password
+        const hashedPassword = await hashPassword(password);
+
         // Create new user in the database
         const newUser = await createUser({
           email,
-          password,
+          password: hashedPassword,
         });
 
         // Sign in the user and store user in session
@@ -75,8 +80,13 @@ export const authenticate = async (options: AuthenticateOptions) => {
       }
 
       // Check if password is correct
-      // Todo: Use bcrypt and create a separate function for this
-      if (existingUser.password !== password) {
+      const isPasswordCorrect = await comparePassword(
+        password,
+        existingUser.password
+      );
+
+      // Set error if password is incorrect
+      if (!isPasswordCorrect) {
         const error = new Error("Incorrect password");
         error.name = "IncorrectPasswordError";
         throw error;
