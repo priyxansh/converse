@@ -3,7 +3,7 @@ export type Credentials = {
   password: string;
 };
 
-export type Provider = "credentials";
+export type Provider = "credentials" | "github";
 
 export type AuthenticateOptions = {
   provider: Provider;

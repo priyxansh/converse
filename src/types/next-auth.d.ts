@@ -5,6 +5,7 @@ declare module "next-auth" {
     user: {
       id: String;
       isProfileComplete: Boolean;
+      isUserCreated?: Boolean;
     } & DefaultSession["user"];
   }
 }

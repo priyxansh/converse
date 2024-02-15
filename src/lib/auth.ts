@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import GitHubProvider from "next-auth/providers/github";
 import prisma from "./prisma";
 
 export const {
@@ -11,6 +12,10 @@ export const {
 } = NextAuth({
   basePath: "/api/auth",
   providers: [
+    GitHubProvider({
+      clientId: process.env.GITHUB_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+    }),
     Credentials({
       async authorize(credentials) {
         if (!credentials) return null;
@@ -26,24 +31,44 @@ export const {
     }),
   ],
   callbacks: {
-    jwt: async ({ token, user }) => {
+    jwt: async ({ token, user, account }) => {
       if (user) {
-        // Get user from the database
-        const existingUser = await prisma.user.findUnique({
-          where: {
-            email: user.email!,
-          },
-        });
+        if (account?.provider === "credentials") {
+          // Get user from the database
+          const existingUser = await prisma.user.findUnique({
+            where: {
+              email: user.email!,
+            },
+          });
 
-        // Throw an error if user not found, since user should be created in authenticate function
-        if (!existingUser) {
-          throw new Error("User not found");
+          // Throw an error if user not found, since user should be created in authenticate function
+          if (!existingUser) {
+            throw new Error("User not found");
+          }
+
+          // Add id and isProfileComplete to the token
+          token.id = existingUser.id;
+          token.isProfileComplete = existingUser.isProfileComplete;
+        } else if (account?.provider === "github") {
+          // Get user from the database
+          const existingUser = await prisma.user.findUnique({
+            where: {
+              email: user.email!,
+            },
+          });
+
+          // If user not found, create a local session for the user with isProfileComplete and isUserCreated set to false. User creation will be handled on /auth/set-password page
+          if (!existingUser) {
+            token.isProfileComplete = false;
+            token.isUserCreated = false;
+          } else {
+            // Add id and isProfileComplete to the token
+            token.id = existingUser.id;
+            token.isProfileComplete = existingUser.isProfileComplete;
+          }
         }
-
-        // Add id and isProfileComplete to the token
-        token.id = existingUser.id;
-        token.isProfileComplete = existingUser.isProfileComplete;
       }
+
       return token;
     },
     session: async ({ session, token }) => {
@@ -51,6 +76,7 @@ export const {
       if (token) {
         session.user.id = token.id as string;
         session.user.isProfileComplete = token.isProfileComplete as boolean;
+        session.user.isUserCreated = token.isUserCreated as boolean | undefined;
       }
       return session;
     },
