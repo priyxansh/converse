@@ -3,13 +3,13 @@
 import { usePasswordVisibility } from "@/hooks/usePasswordVisibility";
 import { userCredentialsSchema } from "@/zod-schemas/userCredentialsSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import PasswordVisibilityToggler from "./PasswordVisibilityToggler";
 import { authenticate } from "@/actions/auth/authenticate";
 import { toast } from "sonner";
+import SubmitButton from "../global/SubmitButton";
 
 import {
   Form,
@@ -23,9 +23,13 @@ import {
 type SignInFormProps = {};
 
 const SignInForm = ({}: SignInFormProps) => {
+  // Initialising the form with react-hook-form and zod
   const form = useForm<z.infer<typeof userCredentialsSchema>>({
     resolver: zodResolver(userCredentialsSchema),
   });
+
+  // Get submitting and dirty state from form
+  const { isSubmitting, isDirty } = form.formState;
 
   // Handle password visibility
   const { isPasswordVisible, togglePasswordVisibility } =
@@ -115,9 +119,12 @@ const SignInForm = ({}: SignInFormProps) => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full mt-2">
-          Sign In
-        </Button>
+        <SubmitButton
+          isSubmitting={isSubmitting}
+          isDirty={isDirty}
+          text="Sign In"
+          submittingText="Signing In..."
+        />
       </form>
     </Form>
   );

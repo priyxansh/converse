@@ -16,11 +16,11 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "../ui/input";
 import PasswordVisibilityToggler from "./PasswordVisibilityToggler";
-import { Button } from "../ui/button";
 import { setOAuthPassword } from "@/actions/auth/setOAuthPassword";
 import { signOut } from "@/actions/auth/signOut";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import SubmitButton from "../global/SubmitButton";
 
 type SetPasswordFormProps = {};
 
@@ -31,6 +31,9 @@ const SetPasswordForm = ({}: SetPasswordFormProps) => {
   const form = useForm<z.infer<typeof setPasswordSchema>>({
     resolver: zodResolver(setPasswordSchema),
   });
+
+  // Get submitting and dirty state from form
+  const { isSubmitting, isDirty } = form.formState;
 
   // Handle password visibility
   const { isPasswordVisible, togglePasswordVisibility } =
@@ -118,9 +121,12 @@ const SetPasswordForm = ({}: SetPasswordFormProps) => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full mt-2">
-          Set Password
-        </Button>
+        <SubmitButton
+          isSubmitting={isSubmitting}
+          isDirty={isDirty}
+          text="Set Password"
+          submittingText="Setting Password..."
+        />
       </form>
     </Form>
   );

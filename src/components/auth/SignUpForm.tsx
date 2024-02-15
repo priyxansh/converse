@@ -3,13 +3,13 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signupFormSchema } from "@/zod-schemas/signupFormSchema";
-import { Button } from "@/components/ui/button";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import PasswordVisibilityToggler from "./PasswordVisibilityToggler";
 import { usePasswordVisibility } from "@/hooks/usePasswordVisibility";
 import { authenticate } from "@/actions/auth/authenticate";
 import { toast } from "sonner";
+import SubmitButton from "../global/SubmitButton";
 
 import {
   Form,
@@ -27,6 +27,9 @@ const SignUpForm = ({}: SignUpFormProps) => {
   const form = useForm<z.infer<typeof signupFormSchema>>({
     resolver: zodResolver(signupFormSchema),
   });
+
+  // Get submitting and dirty state from form
+  const { isSubmitting, isDirty } = form.formState;
 
   // Handle password visibility
   const { isPasswordVisible, togglePasswordVisibility } =
@@ -136,9 +139,12 @@ const SignUpForm = ({}: SignUpFormProps) => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full mt-2">
-          Create Account
-        </Button>
+        <SubmitButton
+          isSubmitting={isSubmitting}
+          isDirty={isDirty}
+          text="Sign Up"
+          submittingText="Signing Up..."
+        />
       </form>
     </Form>
   );
