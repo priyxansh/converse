@@ -1,26 +1,18 @@
 "use server";
 
-import prisma from "@/lib/prisma";
+import { getUserByEmail } from "./getUserByEmail";
 
 /**
  * Check if a user exists by email
  * @param {string} email - The email of the user
- * @returns {boolean | undefined} - True if the user exists, false if the user does not exist, undefined if an error occurs
+ * @returns {boolean} - True if the user exists, false if the user does not exist
  */
 export const checkExistingUserByEmail = async (email: string) => {
-  try {
-    const existingUser = await prisma.user.findUnique({
-      where: {
-        email: email,
-      },
-    });
+  const existingUser = await getUserByEmail({ email });
 
-    if (existingUser) {
-      return true;
-    }
-
-    return false;
-  } catch (error: any) {
-    return undefined;
+  if (existingUser) {
+    return true;
   }
+
+  return false;
 };

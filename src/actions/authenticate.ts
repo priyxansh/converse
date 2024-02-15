@@ -4,7 +4,8 @@ import { signIn } from "@/lib/auth";
 import { AuthenticateOptions } from "@/types/auth";
 import { checkExistingUserByEmail } from "./checkExistingUserByEmail";
 import { userCredentialsSchema } from "@/zod-schemas/userCredentialsSchema";
-import prisma from "@/lib/prisma";
+import { getUserByEmail } from "./getUserByEmail";
+import { createUser } from "./createUser";
 
 /**
  * Authenticates the user
@@ -44,11 +45,9 @@ export const authenticate = async (options: AuthenticateOptions) => {
         }
 
         // Create new user in the database
-        const newUser = await prisma.user.create({
-          data: {
-            email: email,
-            password: password,
-          },
+        const newUser = await createUser({
+          email,
+          password,
         });
 
         // Sign in the user and store user in session
@@ -63,6 +62,62 @@ export const authenticate = async (options: AuthenticateOptions) => {
           success: true,
         };
       }
+
+      // Handle sign in
+      // Get user from the database
+      const existingUser = await getUserByEmail({ email });
+
+      // Throw an error if user not found
+      if (!existingUser) {
+        const error = new Error("User not found");
+        error.name = "UserNotFoundError";
+        throw error;
+      }
+
+      // Check if password is correct
+      // Todo: Use bcrypt and create a separate function for this
+      if (existingUser.password !== password) {
+        const error = new Error("Incorrect password");
+        error.name = "IncorrectPasswordError";
+        throw error;
+      }
+
+      // Sign in and redirect user appropriately
+      if (existingUser.isProfileComplete) {
+        await signIn("credentials", {
+          id: existingUser.id,
+          email: existingUser.email,
+          redirect: true,
+          redirectTo: "/",
+        });
+
+        return {
+          success: true,
+        };
+      }
+
+      await signIn("credentials", {
+        id: existingUser.id,
+        email: existingUser.email,
+        redirect: true,
+        redirectTo: "/auth/complete-profile",
+      });
+
+      return {
+        success: true,
+      };
+    }
+
+    if (options.provider === "github") {
+      // Handle GitHub OAuth
+      await signIn("github", {
+        redirect: true,
+        redirectTo: "/auth/complete-profile",
+      });
+
+      return {
+        success: true,
+      };
     }
   } catch (error: any) {
     // Allow server side redirects. Subject to NextJS API changes in future.
