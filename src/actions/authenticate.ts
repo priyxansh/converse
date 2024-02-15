@@ -83,24 +83,13 @@ export const authenticate = async (options: AuthenticateOptions) => {
       }
 
       // Sign in and redirect user appropriately
-      if (existingUser.isProfileComplete) {
-        await signIn("credentials", {
-          id: existingUser.id,
-          email: existingUser.email,
-          redirect: true,
-          redirectTo: "/",
-        });
-
-        return {
-          success: true,
-        };
-      }
-
       await signIn("credentials", {
         id: existingUser.id,
         email: existingUser.email,
         redirect: true,
-        redirectTo: "/auth/complete-profile",
+        redirectTo: existingUser.isProfileComplete
+          ? "/chat"
+          : "/auth/complete-profile",
       });
 
       return {
