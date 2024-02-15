@@ -10,9 +10,5 @@ export const userCredentialsSchema = z.object({
     .string({
       required_error: "Password is required",
     })
-    .min(8, "Password must be at least 8 characters long")
-    .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
-      "Password must contain at least one uppercase letter, one lowercase letter, and one number"
-    ),
+    .min(8, "Password must be at least 8 characters long"),
 });
