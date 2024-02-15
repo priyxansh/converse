@@ -8,7 +8,7 @@ import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import PasswordVisibilityToggler from "./PasswordVisibilityToggler";
 import { usePasswordVisibility } from "@/hooks/usePasswordVisibility";
-import { authenticate } from "@/actions/authenticate";
+import { authenticate } from "@/actions/auth/authenticate";
 import { toast } from "sonner";
 
 import {

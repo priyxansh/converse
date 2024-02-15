@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import PasswordVisibilityToggler from "./PasswordVisibilityToggler";
-import { authenticate } from "@/actions/authenticate";
+import { authenticate } from "@/actions/auth/authenticate";
 import { toast } from "sonner";
 
 import {
