@@ -103,6 +103,7 @@ const SignInForm = ({}: SignInFormProps) => {
                       isPasswordVisible ? "MyStrongPassword" : "********"
                     }
                     {...field}
+                    className="pr-10"
                   />
                   <PasswordVisibilityToggler
                     isPasswordVisible={isPasswordVisible}

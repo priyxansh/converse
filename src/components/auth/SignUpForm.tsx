@@ -98,6 +98,7 @@ const SignUpForm = ({}: SignUpFormProps) => {
                       isPasswordVisible ? "MyStrongPassword" : "********"
                     }
                     {...field}
+                    className="pr-10"
                   />
                   <PasswordVisibilityToggler
                     isPasswordVisible={isPasswordVisible}
@@ -123,6 +124,7 @@ const SignUpForm = ({}: SignUpFormProps) => {
                       isConfirmPasswordVisible ? "MyStrongPassword" : "********"
                     }
                     {...field}
+                    className="pr-10"
                   />
                   <PasswordVisibilityToggler
                     isPasswordVisible={isConfirmPasswordVisible}
