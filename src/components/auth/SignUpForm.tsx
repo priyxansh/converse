@@ -40,7 +40,7 @@ const SignUpForm = ({}: SignUpFormProps) => {
   const onSubmit = async (data: z.infer<typeof signupFormSchema>) => {
     const { email, password } = data;
 
-    const signInResult = await authenticate({
+    const authenticateResult = await authenticate({
       isSignUp: true,
       provider: "credentials",
       credentials: {
@@ -50,7 +50,7 @@ const SignUpForm = ({}: SignUpFormProps) => {
     });
 
     // Set error if user already exists
-    if (signInResult?.error?.name === "UserExistsError") {
+    if (authenticateResult?.error?.name === "UserExistsError") {
       form.setError("email", {
         type: "manual",
         message: "User with this email already exists",
@@ -59,7 +59,7 @@ const SignUpForm = ({}: SignUpFormProps) => {
     }
 
     // Show toast for other errors
-    if (signInResult?.error) {
+    if (authenticateResult?.error) {
       toast.error("An error occurred while signing you up. Please try again.");
       return;
     }
