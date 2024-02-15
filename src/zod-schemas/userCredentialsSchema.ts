@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { basePasswordSchema } from "./basePasswordSchema";
 
 export const userCredentialsSchema = z.object({
   email: z
@@ -6,9 +7,5 @@ export const userCredentialsSchema = z.object({
       required_error: "Email is required",
     })
     .email("Invalid email address"),
-  password: z
-    .string({
-      required_error: "Password is required",
-    })
-    .min(8, "Password must be at least 8 characters long"),
+  password: basePasswordSchema.shape.password,
 });
