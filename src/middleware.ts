@@ -23,6 +23,8 @@ export default auth((req) => {
   if (session && session.user.isProfileComplete === false) {
     return NextResponse.redirect(origin + "/auth/complete-profile");
   }
+
+  return NextResponse.next();
 });
 
 export const config = {
