@@ -55,7 +55,7 @@ const SetPasswordForm = ({}: SetPasswordFormProps) => {
       toast.error("Password already set for this user. Please sign in again.");
 
       // Sign user out
-      await signOut();
+      await signOut({});
 
       // Redirect to /auth/signin
       router.push("/auth/signin");
