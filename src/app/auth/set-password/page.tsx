@@ -1,33 +1,15 @@
 import SetPasswordForm from "@/components/auth/SetPasswordForm";
+
 import {
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
 
 type SetPasswordPageProps = {};
 
-const SetPasswordPage = async ({}: SetPasswordPageProps) => {
-  const session = await auth();
-
-  // Redirect to /auth if no session found
-  if (!session) {
-    redirect("/auth");
-  }
-
-  // Redirect to /auth/complete-profile if user is created in the database and profile is incomplete
-  if (session.user.isUserCreated !== false) {
-    if (session.user.isProfileComplete === false) {
-      redirect("/auth/complete-profile");
-    }
-
-    // Redirect to /chat if user profile is complete
-    redirect("/chat");
-  }
-
+const SetPasswordPage = ({}: SetPasswordPageProps) => {
   return (
     <>
       <CardHeader className="text-center">
