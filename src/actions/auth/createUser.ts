@@ -4,6 +4,8 @@ import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
 type CreateUserOptions = {
+  name?: string | null;
+  image?: string | null;
   email: string;
   password: string;
   select?: Prisma.UserSelect;
@@ -15,6 +17,8 @@ type CreateUserOptions = {
  * @returns Returns the user if created, throws an error if not
  */
 export const createUser = async ({
+  name,
+  image,
   email,
   password,
   select,
@@ -22,6 +26,8 @@ export const createUser = async ({
   try {
     const user = await prisma.user.create({
       data: {
+        name: name,
+        image: image,
         email: email,
         password: password,
       },

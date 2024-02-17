@@ -13,13 +13,16 @@ export const setOAuthPassword = async (password: string) => {
   // Get the session. Since this function is only called from /auth/set-password which handles redirects, we can safely assume that the user is authenticated
   const session = (await auth()) as Session;
 
-  const { email } = session.user;
+  const { name, image, email } = session.user;
 
   // Authenticate the user with the new password with credentials provider to create a new user in the database
   const authenticateResult = await authenticate({
     isSignUp: true,
+    isOAuthSignUp: true,
     provider: "credentials",
     credentials: {
+      name,
+      image,
       email: email!,
       password,
     },

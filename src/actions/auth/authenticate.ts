@@ -46,11 +46,17 @@ export const authenticate = async (options: AuthenticateOptions) => {
           throw error;
         }
 
+        // Get name and image from the session if available, in case of setting initial password for OAuth user
+        const name = options.isOAuthSignUp ? options.credentials.name : null;
+        const image = options.isOAuthSignUp ? options.credentials.image : null;
+
         // Hash the password
         const hashedPassword = await hashPassword(password);
 
         // Create new user in the database
         const newUser = await createUser({
+          name,
+          image,
           email,
           password: hashedPassword,
         });
