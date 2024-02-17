@@ -23,7 +23,7 @@ const SignInPage = ({}: SignInPageProps) => {
       <CardContent className="flex flex-col items-center justify-center gap-2">
         <SignInForm />
         <span className="text-sm">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Link href="/auth/signup" className="text-primary underline">
             Sign up.
           </Link>
