@@ -1,3 +1,4 @@
+import EmailSignOutPrompt from "@/components/auth/EmailSignOutPrompt";
 import SetPasswordForm from "@/components/auth/SetPasswordForm";
 
 import {
@@ -18,6 +19,7 @@ const SetPasswordPage = ({}: SetPasswordPageProps) => {
       </CardHeader>
       <CardContent className="flex flex-col items-center justify-center gap-2">
         <SetPasswordForm />
+        <EmailSignOutPrompt />
       </CardContent>
     </>
   );
