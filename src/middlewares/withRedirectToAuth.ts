@@ -1,8 +1,9 @@
 import { NextAuthRequest } from "@/types/auth";
 import { Middleware } from "@/types/middleware";
 import { NextResponse } from "next/server";
+import { middlewareConfig } from "../../middlewareConfig";
 
-const excludedPaths = ["/", "/auth", "/auth/signin", "/auth/signup"];
+const excludedPaths = middlewareConfig.excludedPaths.withRedirectToAuth;
 
 /**
  * Redirects to /auth if no session found.

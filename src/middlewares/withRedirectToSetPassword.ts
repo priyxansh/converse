@@ -1,8 +1,9 @@
 import { NextAuthRequest } from "@/types/auth";
 import { Middleware } from "@/types/middleware";
 import { NextResponse } from "next/server";
+import { middlewareConfig } from "../../middlewareConfig";
 
-const excludedPaths = ["/auth/set-password"];
+const excludedPaths = middlewareConfig.excludedPaths.withRedirectToSetPassword;
 
 /**
  * Redirects to /auth/set-password if isUserCreated is false.

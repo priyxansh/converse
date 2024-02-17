@@ -1,8 +1,10 @@
 import { NextAuthRequest } from "@/types/auth";
 import { Middleware } from "@/types/middleware";
 import { NextResponse } from "next/server";
+import { middlewareConfig } from "../../middlewareConfig";
 
-const excludedPaths = ["/auth/complete-profile"];
+const excludedPaths =
+  middlewareConfig.excludedPaths.withRedirectToCompleteProfile;
 
 /**
  * Redirects to /auth/complete-profile if isProfileComplete is false.
