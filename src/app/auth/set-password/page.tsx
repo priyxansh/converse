@@ -1,5 +1,6 @@
 import EmailSignOutPrompt from "@/components/auth/EmailSignOutPrompt";
 import SetPasswordForm from "@/components/auth/SetPasswordForm";
+import { Suspense } from "react";
 
 import {
   CardContent,
@@ -19,7 +20,9 @@ const SetPasswordPage = ({}: SetPasswordPageProps) => {
       </CardHeader>
       <CardContent className="flex flex-col items-center justify-center gap-2">
         <SetPasswordForm />
-        <EmailSignOutPrompt />
+        <Suspense fallback={null}>
+          <EmailSignOutPrompt />
+        </Suspense>
       </CardContent>
     </>
   );
