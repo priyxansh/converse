@@ -21,10 +21,12 @@ export const {
         if (!credentials) return null;
 
         // Validated and sanitized credentials will be received from authenticate function
-        const { id, email } = credentials;
+        const { id, name, image, email } = credentials;
 
         return {
           id,
+          name,
+          image,
           email,
         } as any;
       },

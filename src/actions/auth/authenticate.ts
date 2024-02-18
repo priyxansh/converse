@@ -65,6 +65,8 @@ export const authenticate = async (options: AuthenticateOptions) => {
         await signIn("credentials", {
           id: newUser.id,
           email: newUser.email,
+          name: newUser.name,
+          image: newUser.image,
           redirect: true,
           redirectTo: "/auth/complete-profile",
         });
