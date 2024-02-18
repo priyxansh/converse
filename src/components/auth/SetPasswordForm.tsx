@@ -61,6 +61,12 @@ const SetPasswordForm = ({}: SetPasswordFormProps) => {
       router.push("/auth/signin");
       return;
     }
+
+    // Show toast for other errors
+    if (setPasswordResult?.error) {
+      toast.error("An error occurred. Please try again.");
+      return;
+    }
   };
 
   return (
