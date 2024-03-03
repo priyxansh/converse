@@ -1,10 +1,11 @@
 import { z } from "zod";
 import { basePasswordSchema } from "./basePasswordSchema";
+import { PASSWORD as passwordRegex } from "@/constants/regex";
 
 export const setPasswordSchema = z
   .object({
     password: basePasswordSchema.shape.password.regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
+      passwordRegex,
       "Password must contain at least one uppercase letter, one lowercase letter, and one number"
     ),
     confirmPassword: basePasswordSchema.shape.confirmPassword,
