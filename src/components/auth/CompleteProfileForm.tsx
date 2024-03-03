@@ -18,6 +18,9 @@ import SubmitButton from "../global/SubmitButton";
 import { Input } from "../ui/input";
 import { useEffect, useState } from "react";
 import { checkExistingUserByUsername } from "@/actions/auth/checkExistingUserByUsername";
+import { completeProfile } from "@/actions/auth/completeProfile";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type CompleteProfileFormProps = {
   name?: string | null;
@@ -25,6 +28,8 @@ type CompleteProfileFormProps = {
 };
 
 const CompleteProfileForm = ({ name, image }: CompleteProfileFormProps) => {
+  const router = useRouter()
+
   // Initialising the form with react-hook-form and zod
   const form = useForm<z.infer<typeof completeProfileSchema>>({
     resolver: zodResolver(completeProfileSchema),
@@ -39,12 +44,33 @@ const CompleteProfileForm = ({ name, image }: CompleteProfileFormProps) => {
 
   // Form submit handler
   const onSubmit = async (data: z.infer<typeof completeProfileSchema>) => {
+    const completeProfileResult = await completeProfile(data);
+    console.log("test");
+
     // Set error if the username already exists
-    const exists = await validateUsername(data.username);
+    if (
+      completeProfileResult?.error &&
+      completeProfileResult?.error?.name === "UsernameExistsError"
+    ) {
+      form.setError("username", {
+        type: "manual",
+        message: completeProfileResult.error.message,
+      });
 
-    if (exists) return;
+      return;
+    }
 
-    console.log(data);
+    // Show toast for other errors
+    if (completeProfileResult?.error) {
+      toast.error("Failed to complete profile. Please try again.");
+      return;
+    }
+
+    // Show success toast
+    toast.success("Profile completed successfully.");
+
+    // Redirect to chat page
+    router.push("/chat");
   };
 
   // Timeout state for the username check
@@ -64,6 +90,8 @@ const CompleteProfileForm = ({ name, image }: CompleteProfileFormProps) => {
           type: "manual",
           message: "Username already exists",
         });
+      } else {
+        form.clearErrors("username");
       }
 
       return exists;
@@ -128,7 +156,7 @@ const CompleteProfileForm = ({ name, image }: CompleteProfileFormProps) => {
             </FormItem>
           )}
         />
-
+        <button type="submit">test</button>
         <SubmitButton
           isSubmitting={isSubmitting}
           isDirty={isDirty}

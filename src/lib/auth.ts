@@ -48,8 +48,10 @@ export const {
             throw new Error("User not found");
           }
 
-          // Add id and isProfileComplete to the token
+          // Update token
           token.id = existingUser.id;
+          token.name = existingUser.name;
+          token.image = existingUser.image;
           token.isProfileComplete = existingUser.isProfileComplete;
           token.username = existingUser.username;
         } else if (account?.provider === "github") {
@@ -65,8 +67,10 @@ export const {
             token.isProfileComplete = false;
             token.isUserCreated = false;
           } else {
-            // Add id and isProfileComplete to the token
+            // Update token
             token.id = existingUser.id;
+            token.name = existingUser.name;
+            token.image = existingUser.image;
             token.isProfileComplete = existingUser.isProfileComplete;
             token.username = existingUser.username;
           }
@@ -79,6 +83,7 @@ export const {
       // Add id and isProfileComplete to the session right after the user signs in
       if (token) {
         session.user.id = token.id as string;
+        session.user.name = token.name as string;
         session.user.isProfileComplete = token.isProfileComplete as boolean;
         session.user.isUserCreated = token.isUserCreated as boolean | undefined;
         session.user.username = token.username as string | undefined;
