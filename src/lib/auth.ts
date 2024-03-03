@@ -51,6 +51,7 @@ export const {
           // Add id and isProfileComplete to the token
           token.id = existingUser.id;
           token.isProfileComplete = existingUser.isProfileComplete;
+          token.username = existingUser.username;
         } else if (account?.provider === "github") {
           // Get user from the database
           const existingUser = await prisma.user.findUnique({
@@ -67,6 +68,7 @@ export const {
             // Add id and isProfileComplete to the token
             token.id = existingUser.id;
             token.isProfileComplete = existingUser.isProfileComplete;
+            token.username = existingUser.username;
           }
         }
       }
@@ -79,6 +81,7 @@ export const {
         session.user.id = token.id as string;
         session.user.isProfileComplete = token.isProfileComplete as boolean;
         session.user.isUserCreated = token.isUserCreated as boolean | undefined;
+        session.user.username = token.username as string | undefined;
       }
       return session;
     },

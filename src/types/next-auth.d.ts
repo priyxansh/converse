@@ -4,6 +4,7 @@ declare module "next-auth" {
   interface Session {
     user: {
       id: String;
+      username?: String;
       isProfileComplete: Boolean;
       isUserCreated?: Boolean;
     } & DefaultSession["user"];
