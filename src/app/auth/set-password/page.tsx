@@ -8,10 +8,22 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 type SetPasswordPageProps = {};
 
-const SetPasswordPage = ({}: SetPasswordPageProps) => {
+const SetPasswordPage = async ({}: SetPasswordPageProps) => {
+  const session = await auth();
+
+  if (!session) {
+    redirect("/auth/signin");
+  }
+
+  if (session.user.isUserCreated !== false) {
+    redirect("/auth/complete-profile");
+  }
+
   return (
     <>
       <CardHeader className="text-center">

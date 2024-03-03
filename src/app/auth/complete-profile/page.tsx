@@ -9,12 +9,24 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { redirect } from "next/navigation";
 
 type CompleteProfilePageProps = {};
 
 const CompleteProfilePage = async ({}: CompleteProfilePageProps) => {
-  // Redirection will be handled by the middleware
-  const session = (await auth()) as Session;
+  const session = await auth();
+
+  if (!session) {
+    redirect("/auth/signin");
+  }
+
+  if (session?.user.isUserCreated === false) {
+    redirect("/auth/set-password");
+  }
+
+  if (session?.user.isProfileComplete) {
+    redirect("/chat");
+  }
 
   return (
     <>
