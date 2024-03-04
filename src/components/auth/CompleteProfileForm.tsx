@@ -28,7 +28,7 @@ type CompleteProfileFormProps = {
 };
 
 const CompleteProfileForm = ({ name, image }: CompleteProfileFormProps) => {
-  const router = useRouter()
+  const router = useRouter();
 
   // Initialising the form with react-hook-form and zod
   const form = useForm<z.infer<typeof completeProfileSchema>>({
@@ -36,16 +36,17 @@ const CompleteProfileForm = ({ name, image }: CompleteProfileFormProps) => {
     defaultValues: {
       name: name || "",
       image: image || "",
+      username: "",
+      bio: "",
     },
   });
 
   // Get submitting and dirty state from form
-  const { isSubmitting, isDirty } = form.formState;
+  const { isSubmitting, isDirty, errors } = form.formState;
 
   // Form submit handler
   const onSubmit = async (data: z.infer<typeof completeProfileSchema>) => {
     const completeProfileResult = await completeProfile(data);
-    console.log("test");
 
     // Set error if the username already exists
     if (

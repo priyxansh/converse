@@ -38,7 +38,7 @@ export const completeProfileSchema = z.object({
     .max(50, {
       message: "Name must be at most 50 characters long",
     }),
-  image: z.string().url().optional(),
+  image: z.string().optional(),
   bio: z
     .string()
     .max(150, {
