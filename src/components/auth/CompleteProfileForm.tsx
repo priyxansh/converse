@@ -156,7 +156,6 @@ const CompleteProfileForm = ({ name, image }: CompleteProfileFormProps) => {
             </FormItem>
           )}
         />
-        <button type="submit">test</button>
         <SubmitButton
           isSubmitting={isSubmitting}
           isDirty={isDirty}
