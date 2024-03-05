@@ -1,9 +1,9 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+"use client";
+
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import { Skeleton } from "../ui/skeleton";
 
 type ViewAvatarDialogProps = {
   open: boolean;
@@ -11,12 +11,20 @@ type ViewAvatarDialogProps = {
 };
 
 const ViewAvatarDialog = ({ open, onOpenChange }: ViewAvatarDialogProps) => {
+  const session = useSession();
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Your Avatar</DialogTitle>
-        </DialogHeader>
+    <Dialog open={open} onOpenChange={onOpenChange} modal>
+      <DialogContent className="w-screen aspect-square border-none p-0 overflow-hidden">
+        {session.data?.user.image ? (
+          <Image
+            src={session.data.user.image as string}
+            fill
+            alt="Your avatar"
+          />
+        ) : (
+          <Skeleton className="h-full w-full dark:bg-gray-500/20 bg-gray-500/70" />
+        )}
       </DialogContent>
     </Dialog>
   );

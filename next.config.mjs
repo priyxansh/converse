@@ -4,6 +4,16 @@ const nextConfig = {
     ppr: true,
     serverComponentsExternalPackages: ["@prisma/client", "bcrypt"],
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+        port: "",
+        pathname: "/u/**",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
