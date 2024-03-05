@@ -74,6 +74,10 @@ const CompleteProfileForm = ({ name, image }: CompleteProfileFormProps) => {
     router.push("/chat");
   };
 
+  const testSubmit = async (data: any) => {
+    console.log(data);
+  };
+
   // Timeout state for the username check
   const [usernameTimeoutId, setUsernameTimeoutId] =
     useState<NodeJS.Timeout | null>(null);
@@ -122,7 +126,7 @@ const CompleteProfileForm = ({ name, image }: CompleteProfileFormProps) => {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(testSubmit)}
         className="w-full flex flex-col gap-2"
       >
         <FormField

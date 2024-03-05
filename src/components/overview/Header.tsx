@@ -3,7 +3,7 @@ import Container from "../global/Container";
 import ThemeToggler from "../global/ThemeToggler";
 import NavBar from "./NavBar";
 import { Skeleton } from "../ui/skeleton";
-import UserAvatarMenu from "../global/UserAvatarMenu";
+import UserAvatarMenu from "../UserAvatar/UserAvatarMenu";
 
 type HeaderProps = {};
 
