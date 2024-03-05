@@ -8,14 +8,19 @@ import {
 type EditAvatarDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  title?: string;
 };
 
-const EditAvatarDialog = ({ open, onOpenChange }: EditAvatarDialogProps) => {
+const EditAvatarDialog = ({
+  open,
+  onOpenChange,
+  title = "Edit Your Avatar",
+}: EditAvatarDialogProps) => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit Your Avatar</DialogTitle>
+          <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
       </DialogContent>
     </Dialog>

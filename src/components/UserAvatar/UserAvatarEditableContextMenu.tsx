@@ -10,6 +10,7 @@ import {
 import { useState } from "react";
 import ViewAvatarDialog from "./ViewAvatarDialog";
 import EditAvatarDialog from "./EditAvatarDialog";
+import { useSession } from "next-auth/react";
 
 type UserAvatarEditableContextMenuProps = {
   className?: string;
@@ -20,6 +21,12 @@ const UserAvatarEditableContextMenu = ({
   className,
   userAvatarComponent,
 }: UserAvatarEditableContextMenuProps) => {
+  // Get the session
+  const session = useSession();
+
+  // Check if user has an avatar
+  const hasAvatar = !!session.data?.user.image;
+
   // Control states for view avatar and edit avatar modals
   const [isViewAvatarModalOpen, setIsViewAvatarModalOpen] = useState(false);
   const [isEditAvatarModalOpen, setIsEditAvatarModalOpen] = useState(false);
@@ -31,26 +38,39 @@ const UserAvatarEditableContextMenu = ({
           {userAvatarComponent}
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem
-            onClick={() => setIsViewAvatarModalOpen((prev) => !prev)}
-          >
-            View Avatar
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => setIsEditAvatarModalOpen((prev) => !prev)}
-          >
-            Edit Avatar
-          </DropdownMenuItem>
-          <DropdownMenuItem>Remove Avatar</DropdownMenuItem>
+          {hasAvatar ? (
+            <>
+              <DropdownMenuItem
+                onClick={() => setIsViewAvatarModalOpen((prev) => !prev)}
+              >
+                View Avatar
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => setIsEditAvatarModalOpen((prev) => !prev)}
+              >
+                Edit Avatar
+              </DropdownMenuItem>
+              <DropdownMenuItem>Remove Avatar</DropdownMenuItem>
+            </>
+          ) : (
+            <DropdownMenuItem
+              onClick={() => setIsEditAvatarModalOpen((prev) => !prev)}
+            >
+              Upload Avatar
+            </DropdownMenuItem>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
-      <ViewAvatarDialog
-        open={isViewAvatarModalOpen}
-        onOpenChange={setIsViewAvatarModalOpen}
-      />
+      {hasAvatar ? (
+        <ViewAvatarDialog
+          open={isViewAvatarModalOpen}
+          onOpenChange={setIsViewAvatarModalOpen}
+        />
+      ) : null}
       <EditAvatarDialog
         open={isEditAvatarModalOpen}
         onOpenChange={setIsEditAvatarModalOpen}
+        title={hasAvatar ? "Edit Your Avatar" : "Upload Your Avatar"}
       />
     </>
   );
