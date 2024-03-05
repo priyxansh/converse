@@ -15,11 +15,12 @@ const ViewAvatarDialog = ({ open, onOpenChange }: ViewAvatarDialogProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange} modal>
-      <DialogContent className="w-screen aspect-square border-none p-0 overflow-hidden">
+      <DialogContent className="max-h-screen aspect-square border-none p-0 overflow-hidden">
         {session.data?.user.image ? (
           <Image
             src={session.data.user.image as string}
             fill
+            sizes="100vw"
             alt="Your avatar"
           />
         ) : (
