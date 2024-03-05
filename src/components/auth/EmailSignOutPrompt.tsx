@@ -11,7 +11,7 @@ const EmailSignOutPrompt = async ({}: EmailSignOutPromptProps) => {
   }
 
   return (
-    <div className="flex items-center justify-center gap-1 text-sm">
+    <div className="flex items-center justify-center gap-1 text-sm flex-wrap">
       <span>
         Not <span className="underline font-semibold">{session.user.email}</span>?
       </span>
