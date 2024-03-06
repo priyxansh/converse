@@ -10,8 +10,8 @@ import {
 } from "@/components/ui/card";
 
 import { redirect } from "next/navigation";
-import UserAvatarEditableContextMenu from "@/components/UserAvatar/UserAvatarEditableContextMenu";
-import UserAvatar from "@/components/UserAvatar/UserAvatar";
+import UserAvatarEditableContextMenu from "@/components/user-avatar/UserAvatarEditableContextMenu";
+import UserAvatar from "@/components/user-avatar/UserAvatar";
 
 type CompleteProfilePageProps = {};
 

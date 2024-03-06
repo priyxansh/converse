@@ -11,6 +11,7 @@ import { useState } from "react";
 import ViewAvatarDialog from "./ViewAvatarDialog";
 import EditAvatarDialog from "./EditAvatarDialog";
 import { useSession } from "next-auth/react";
+import RemoveAvatarMenuItem from "./RemoveAvatarMenuItem";
 
 type UserAvatarEditableContextMenuProps = {
   className?: string;
@@ -50,7 +51,7 @@ const UserAvatarEditableContextMenu = ({
               >
                 Edit Avatar
               </DropdownMenuItem>
-              <DropdownMenuItem>Remove Avatar</DropdownMenuItem>
+              <RemoveAvatarMenuItem />
             </>
           ) : (
             <DropdownMenuItem
