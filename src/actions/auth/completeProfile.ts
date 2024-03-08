@@ -4,7 +4,8 @@ import { completeProfileSchema } from "@/zod-schemas/completeProfileSchema";
 import { z } from "zod";
 import { checkExistingUserByUsername } from "./checkExistingUserByUsername";
 import prisma from "@/lib/prisma";
-import { auth, signIn } from "@/lib/auth";
+import { auth } from "@/lib/auth";
+import { refreshSession } from "./refreshSession";
 
 /**
  * Completes the user profile by updating the user data in the database
@@ -50,12 +51,14 @@ export const completeProfile = async (
       },
     });
 
-    // Since next-auth v5 doesn't offer a stable way to update the session, we have to sign the user in again
-    await signIn("credentials", {
-      id: user.id,
-      email: user.email,
-      redirect: false,
-    });
+    // Refresh the session
+    const refreshSessionResult = await refreshSession();
+
+    if (!refreshSessionResult.success) {
+      throw new Error(
+        `Failed to update the session: ${refreshSessionResult.error?.message}`
+      );
+    }
 
     return {
       success: true,
