@@ -52,6 +52,7 @@ export const {
           token.id = existingUser.id;
           token.name = existingUser.name;
           token.image = existingUser.image;
+          token.avatarKey = existingUser.avatarKey;
           token.isProfileComplete = existingUser.isProfileComplete;
           token.username = existingUser.username;
         } else if (account?.provider === "github") {
@@ -71,6 +72,7 @@ export const {
             token.id = existingUser.id;
             token.name = existingUser.name;
             token.image = existingUser.image;
+            token.avatarKey = existingUser.avatarKey;
             token.isProfileComplete = existingUser.isProfileComplete;
             token.username = existingUser.username;
           }
@@ -85,6 +87,7 @@ export const {
         session.user.id = token.id as string;
         session.user.name = token.name as string;
         session.user.image = token.image as string | undefined;
+        session.user.avatarKey = token.avatarKey as string | undefined;
         session.user.isProfileComplete = token.isProfileComplete as boolean;
         session.user.isUserCreated = token.isUserCreated as boolean | undefined;
         session.user.username = token.username as string | undefined;
