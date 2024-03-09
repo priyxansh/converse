@@ -15,6 +15,13 @@ export const removeAvatar = async () => {
     throw new Error("User is not authenticated");
   }
 
+  // Return if the user doesn't have an avatar
+  if (!session.user.image || !session.user.avatarKey) {
+    return {
+      success: true,
+    };
+  }
+
   try {
     // Remove the user's avatar in the database
     await prisma.user.update({
