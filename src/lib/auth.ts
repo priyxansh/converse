@@ -11,6 +11,7 @@ export const {
   unstable_update: updateSession,
 } = NextAuth({
   basePath: "/api/auth",
+  trustHost: true,
   providers: [
     GitHubProvider({
       clientId: process.env.GITHUB_CLIENT_ID!,
