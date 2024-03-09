@@ -13,15 +13,15 @@ import EditAvatarDialog from "./EditAvatarDialog";
 import { useSession } from "next-auth/react";
 import RemoveAvatarMenuItem from "./RemoveAvatarMenuItem";
 
-type UserAvatarEditableContextMenuProps = {
+type UserAvatarEditableDropdownMenuProps = {
   className?: string;
   userAvatarComponent: JSX.Element | null;
 };
 
-const UserAvatarEditableContextMenu = ({
+const UserAvatarEditableDropdownMenu = ({
   className,
   userAvatarComponent,
-}: UserAvatarEditableContextMenuProps) => {
+}: UserAvatarEditableDropdownMenuProps) => {
   // Get the session
   const session = useSession();
 
@@ -77,4 +77,4 @@ const UserAvatarEditableContextMenu = ({
   );
 };
 
-export default UserAvatarEditableContextMenu;
+export default UserAvatarEditableDropdownMenu;

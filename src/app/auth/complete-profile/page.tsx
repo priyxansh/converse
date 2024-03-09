@@ -1,6 +1,9 @@
 import CompleteProfileForm from "@/components/auth/CompleteProfileForm";
 import EmailSignOutPrompt from "@/components/auth/EmailSignOutPrompt";
 import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import UserAvatar from "@/components/user-avatar/UserAvatar";
+import UserAvatarEditableDropdownMenu from "@/components/user-avatar/UserAvatarEditableDropdownMenu";
 
 import {
   CardContent,
@@ -8,10 +11,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
-import { redirect } from "next/navigation";
-import UserAvatarEditableContextMenu from "@/components/user-avatar/UserAvatarEditableContextMenu";
-import UserAvatar from "@/components/user-avatar/UserAvatar";
 
 type CompleteProfilePageProps = {};
 
@@ -39,7 +38,7 @@ const CompleteProfilePage = async ({}: CompleteProfilePageProps) => {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col items-center justify-center gap-2">
-        <UserAvatarEditableContextMenu
+        <UserAvatarEditableDropdownMenu
           userAvatarComponent={
             <UserAvatar className="h-20 w-20 hover:brightness-90 cursor-pointer" />
           }
