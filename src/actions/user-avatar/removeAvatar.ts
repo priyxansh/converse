@@ -3,6 +3,7 @@
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { refreshSession } from "../auth/refreshSession";
+import { utapi } from "@/lib/uploadthing";
 /**
  * Removes the logged in user's avatar
  * @returns {Promise<boolean>} - A promise that resolves to true if the user's avatar was removed successfully, and false otherwise
@@ -22,16 +23,29 @@ export const removeAvatar = async () => {
       },
       data: {
         image: null,
+        avatarKey: null,
       },
     });
 
-    // Update session
+    // Remove avatar from UploadThing bucket
+    if (session.user.avatarKey) {
+      const deleteFilesResult = await utapi.deleteFiles(
+        session.user.avatarKey as string
+      );
+
+      if (!deleteFilesResult.success) {
+        const error = new Error("Failed to remove the avatar from the bucket.");
+        error.name = "AvatarRemovalError";
+        throw error;
+      }
+    }
+
+    // Refresh session
     const refreshSessionResult = await refreshSession();
 
     if (!refreshSessionResult.success) {
-      throw new Error(
-        `Failed to update the session: ${refreshSessionResult.error?.message}`
-      );
+      const error = new Error("Failed to refresh the session");
+      error.name = "SessionRefreshError";
     }
 
     return {
