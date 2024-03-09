@@ -67,6 +67,7 @@ export const {
           if (!existingUser) {
             token.isProfileComplete = false;
             token.isUserCreated = false;
+            token.image = user.image;
           } else {
             // Update token
             token.id = existingUser.id;
