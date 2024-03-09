@@ -43,10 +43,7 @@ const CompleteProfilePage = async ({}: CompleteProfilePageProps) => {
             <UserAvatar className="h-20 w-20 hover:brightness-90 cursor-pointer" />
           }
         />
-        <CompleteProfileForm
-          name={session.user.name}
-          image={session.user.image}
-        />
+        <CompleteProfileForm name={session.user.name} />
         <EmailSignOutPrompt />
       </CardContent>
     </>

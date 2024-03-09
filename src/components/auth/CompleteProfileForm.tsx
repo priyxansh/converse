@@ -24,10 +24,9 @@ import { useRouter } from "next/navigation";
 
 type CompleteProfileFormProps = {
   name?: string | null;
-  image?: string | null;
 };
 
-const CompleteProfileForm = ({ name, image }: CompleteProfileFormProps) => {
+const CompleteProfileForm = ({ name }: CompleteProfileFormProps) => {
   const router = useRouter();
 
   // Initialising the form with react-hook-form and zod
@@ -35,7 +34,6 @@ const CompleteProfileForm = ({ name, image }: CompleteProfileFormProps) => {
     resolver: zodResolver(completeProfileSchema),
     defaultValues: {
       name: name || "",
-      image: image || "",
       username: "",
       bio: "",
     },
@@ -72,10 +70,6 @@ const CompleteProfileForm = ({ name, image }: CompleteProfileFormProps) => {
 
     // Redirect to chat page
     router.push("/chat");
-  };
-
-  const testSubmit = async (data: any) => {
-    console.log(data);
   };
 
   // Timeout state for the username check
@@ -126,7 +120,7 @@ const CompleteProfileForm = ({ name, image }: CompleteProfileFormProps) => {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(testSubmit)}
+        onSubmit={form.handleSubmit(onSubmit)}
         className="w-full flex flex-col gap-2"
       >
         <FormField
