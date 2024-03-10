@@ -8,27 +8,22 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-// Will be updated based on authentication strategy
 model User {
-  id        String  @id @default(uuid())
-  name      String?
-  email     String  @unique
-  username  String? @unique
-  bio       String?
-  password  String
-  image     String?
-  avatarKey String?
-
+  id                String  @id @default(uuid())
+  name              String?
+  email             String  @unique
+  username          String? @unique
+  bio               String?
+  password          String
+  image             String?
+  avatarKey         String?
   isProfileComplete Boolean @default(false)
 
-  // One-to-one conversations
-  conversationsInitiated Conversation[] @relation("Initiator")
-  conversationsReceived  Conversation[] @relation("Recipient")
+  chats Chat[] @relation("ChatMembers")
 
   // Group conversations
-  groupsCreated  Group[] @relation("GroupCreator")
-  adminOfGroups  Group[] @relation("GroupAdmin")
-  memberOfGroups Group[] @relation("GroupMembers")
+  groupsCreated Group[] @relation("GroupCreator")
+  adminOfGroups Group[] @relation("GroupAdmin")
 
   // Friend requests
   requestsSent     FriendRequest[] @relation("FriendRequestSender")
@@ -45,7 +40,8 @@ model User {
   messagesReceived Message[] @relation("Recipient")
   messagesRead     Message[] @relation("ReadBy")
 
-  createdAt DateTime @default(now())
+  lastActive DateTime @default(now())
+  createdAt  DateTime @default(now())
 }
 
 // For friend requests
@@ -62,35 +58,32 @@ model FriendRequest {
   createdAt DateTime @default(now())
 }
 
-// For one-to-one conversations
-model Conversation {
-  id   String @id @default(uuid())
-  name String
+model Chat {
+  id      String  @id @default(uuid())
+  name    String
+  isGroup Boolean @default(false)
 
-  initiatorId String
-  initiator   User   @relation("Initiator", fields: [initiatorId], references: [id])
-  recipientId String
-  recipient   User   @relation("Recipient", fields: [recipientId], references: [id])
+  members User[] @relation("ChatMembers")
 
-  messages Message[] @relation("Messages")
+  groupId String? @unique
+  group   Group?  @relation("Chat")
+
+  messages Message[] @relation("ChatMessages")
 
   createdAt DateTime @default(now())
-
-  @@unique([initiatorId, recipientId])
 }
 
 // For group conversations
 model Group {
-  id   String @id @default(uuid())
-  name String
+  id String @id @default(uuid())
 
   creatorId String
   creator   User   @relation("GroupCreator", fields: [creatorId], references: [id])
 
-  admins  User[] @relation("GroupAdmin")
-  members User[] @relation("GroupMembers")
+  admins User[] @relation("GroupAdmin")
 
-  messages Message[] @relation("Messages")
+  chatId String @unique
+  chat   Chat   @relation("Chat", fields: [chatId], references: [id])
 
   createdAt DateTime @default(now())
 }
@@ -102,15 +95,11 @@ model Message {
   senderId String
   sender   User   @relation("Sender", fields: [senderId], references: [id])
 
-  // For one-to-one conversations
-  conversationId String?
-  conversation   Conversation? @relation("Messages", fields: [conversationId], references: [id])
-  recipientId    String?
-  recipient      User?         @relation("Recipient", fields: [recipientId], references: [id])
+  recipientId String?
+  recipient   User?   @relation("Recipient", fields: [recipientId], references: [id])
 
-  // For group conversations
-  groupId String?
-  group   Group?  @relation("Messages", fields: [groupId], references: [id])
+  chatId String
+  chat   Chat   @relation("ChatMessages", fields: [chatId], references: [id])
 
   readBy User[] @relation("ReadBy")
 
