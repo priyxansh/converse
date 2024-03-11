@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import Hint from "../global/Hint";
-import { Button } from "../ui/button";
+import Hint from "../../global/Hint";
+import { Button } from "../../ui/button";
 import { usePathname } from "next/navigation";
 
 type SideBarListItemProps = {

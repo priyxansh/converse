@@ -1,8 +1,8 @@
 import { Suspense } from "react";
-import UserAvatarMenu from "../user-avatar/UserAvatarMenu";
-import { Skeleton } from "../ui/skeleton";
+import UserAvatarMenu from "../../user-avatar/UserAvatarMenu";
+import { Skeleton } from "../../ui/skeleton";
 import SideBarList from "./SideBarList";
-import ThemeToggler from "../global/ThemeToggler";
+import ThemeToggler from "../../global/ThemeToggler";
 
 type SideBarProps = {};
 

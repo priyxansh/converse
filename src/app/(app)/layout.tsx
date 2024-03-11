@@ -1,4 +1,4 @@
-import SideBar from "@/components/app/SideBar";
+import SideBar from "@/components/app/SideBar/SideBar";
 
 type AppLayoutProps = {
   children: React.ReactNode;
