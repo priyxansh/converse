@@ -13,9 +13,15 @@ import {
 
 type UserAvatarMenuProps = {
   className?: string;
+  side?: "top" | "bottom" | "left" | "right";
+  align?: "start" | "center" | "end";
 };
 
-const UserAvatarMenu = async ({ className }: UserAvatarMenuProps) => {
+const UserAvatarMenu = async ({
+  className,
+  side = "bottom",
+  align = "end",
+}: UserAvatarMenuProps) => {
   const session = await auth();
 
   if (!session) return null;
@@ -25,7 +31,7 @@ const UserAvatarMenu = async ({ className }: UserAvatarMenuProps) => {
       <DropdownMenuTrigger>
         <UserAvatar className={className} />
       </DropdownMenuTrigger>
-      <DropdownMenuContent side={"bottom"} align={"end"}>
+      <DropdownMenuContent side={side} align={align}>
         <DropdownMenuLabel className="flex flex-col">
           <span className="font-bold">{session.user.name}</span>
           <span className="text-gray-500 text-sm">{session.user.email}</span>
