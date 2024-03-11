@@ -1,5 +1,4 @@
 import UserAvatar from "./UserAvatar";
-import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/auth";
 import SignOutButton from "../auth/SignOutButton";
 
@@ -12,19 +11,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-type UserAvatarMenuProps = {};
+type UserAvatarMenuProps = {
+  className?: string;
+};
 
-const UserAvatarMenu = async ({}: UserAvatarMenuProps) => {
+const UserAvatarMenu = async ({ className }: UserAvatarMenuProps) => {
   const session = await auth();
 
   if (!session) return null;
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant={"ghost"} className="rounded-full p-0 w-auto h-auto">
-          <UserAvatar />
-        </Button>
+      <DropdownMenuTrigger>
+        <UserAvatar className={className} />
       </DropdownMenuTrigger>
       <DropdownMenuContent side={"bottom"} align={"end"}>
         <DropdownMenuLabel className="flex flex-col">
