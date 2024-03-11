@@ -13,7 +13,9 @@ const UserAvatar = async ({ className }: UserAvatarProps) => {
   return (
     <Avatar className={`h-7 w-7 ${className}`}>
       <AvatarImage src={session.user.image as string} />
-      <AvatarFallback>{session.user.name?.split("")[0]}</AvatarFallback>
+      <AvatarFallback className={className}>
+        {session.user.name?.split("")[0]}
+      </AvatarFallback>
     </Avatar>
   );
 };
