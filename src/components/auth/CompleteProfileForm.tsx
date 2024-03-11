@@ -17,10 +17,10 @@ import { z } from "zod";
 import SubmitButton from "../global/SubmitButton";
 import { Input } from "../ui/input";
 import { useEffect, useState } from "react";
-import { checkExistingUserByUsername } from "@/actions/auth/checkExistingUserByUsername";
 import { completeProfile } from "@/actions/auth/completeProfile";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { checkExistingUserByUsername } from "@/actions/user/checkExistingUserByUsername";
 
 type CompleteProfileFormProps = {
   name?: string | null;
@@ -40,7 +40,7 @@ const CompleteProfileForm = ({ name }: CompleteProfileFormProps) => {
   });
 
   // Get submitting and dirty state from form
-  const { isSubmitting, isDirty, errors } = form.formState;
+  const { isSubmitting, isDirty } = form.formState;
 
   // Form submit handler
   const onSubmit = async (data: z.infer<typeof completeProfileSchema>) => {

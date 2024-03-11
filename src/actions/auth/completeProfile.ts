@@ -2,7 +2,7 @@
 
 import { completeProfileSchema } from "@/zod-schemas/completeProfileSchema";
 import { z } from "zod";
-import { checkExistingUserByUsername } from "./checkExistingUserByUsername";
+import { checkExistingUserByUsername } from "../user/checkExistingUserByUsername";
 import prisma from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { refreshSession } from "./refreshSession";
@@ -25,7 +25,7 @@ export const completeProfile = async (
     // Validate the data
     await completeProfileSchema.parseAsync(data);
 
-    const { username, name, image, bio } = data;
+    const { username, name, bio } = data;
 
     // Check if the username already exists
     const exists = await checkExistingUserByUsername(username);
@@ -38,11 +38,10 @@ export const completeProfile = async (
     }
 
     // Update data in the database
-    const user = await prisma.user.update({
+    await prisma.user.update({
       data: {
         username,
         name,
-        image,
         bio,
         isProfileComplete: true,
       },

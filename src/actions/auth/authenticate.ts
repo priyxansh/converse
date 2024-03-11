@@ -2,10 +2,10 @@
 
 import { signIn } from "@/lib/auth";
 import { AuthenticateOptions } from "@/types/auth";
-import { checkExistingUserByEmail } from "./checkExistingUserByEmail";
+import { checkExistingUserByEmail } from "../user/checkExistingUserByEmail";
 import { userCredentialsSchema } from "@/zod-schemas/userCredentialsSchema";
-import { getUserByEmail } from "./getUserByEmail";
-import { createUser } from "./createUser";
+import { getUserByEmail } from "../user/getUserByEmail";
+import { createUser } from "../user/createUser";
 import { hashPassword } from "./hashPassword";
 import { comparePassword } from "./comparePassword";
 
