@@ -17,7 +17,7 @@ const SideBar = ({}: SideBarProps) => {
         />
       </Suspense>
       <SideBarList />
-      <ThemeToggler />
+      <ThemeToggler hintSide="right" hintAlign="center" />
     </div>
   );
 };

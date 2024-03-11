@@ -11,13 +11,21 @@ type HintProps = {
   delayDuration?: number;
   side?: "top" | "bottom" | "left" | "right";
   align?: "start" | "center" | "end";
+  asChild?: boolean;
 };
 
-const Hint = ({ trigger, content, delayDuration, side, align }: HintProps) => {
+const Hint = ({
+  trigger,
+  content,
+  delayDuration,
+  side,
+  align,
+  asChild = false,
+}: HintProps) => {
   return (
     <TooltipProvider delayDuration={delayDuration}>
       <Tooltip>
-        <TooltipTrigger>{trigger}</TooltipTrigger>
+        <TooltipTrigger asChild={asChild}>{trigger}</TooltipTrigger>
         <TooltipContent side={side} align={align}>
           {content}
         </TooltipContent>
