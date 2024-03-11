@@ -1,7 +1,13 @@
+import SearchBar from "@/components/app/search/SearchBar";
+
 type SearchPageProps = {};
 
 const SearchPage = ({}: SearchPageProps) => {
-  return <div>Search Page</div>;
+  return (
+    <main className="flex-grow p-4">
+      <SearchBar />
+    </main>
+  );
 };
 
 export default SearchPage;
