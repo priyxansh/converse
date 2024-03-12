@@ -1,6 +1,8 @@
 import { BOTTOMBAR_ITEMS } from "@/constants/bottombar";
 import BottomBarItem from "./BottomBarItem";
 import BottomBarDropdownMenu from "./BottomBarDropdownMenu";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type BottomBarProps = {};
 
@@ -12,7 +14,9 @@ const BottomBar = ({}: BottomBarProps) => {
       {BOTTOMBAR_ITEMS.map((item) => (
         <BottomBarItem key={item.id} item={item} />
       ))}
-      <BottomBarDropdownMenu />
+      <Suspense fallback={<Skeleton className="rounded-md" />}>
+        <BottomBarDropdownMenu />
+      </Suspense>
     </nav>
   );
 };
