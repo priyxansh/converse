@@ -26,7 +26,6 @@ const SideBarListItem = ({ item }: SideBarListItemProps) => {
       align="center"
       trigger={
         <Button
-          key={item.id}
           size={"icon"}
           variant={"ghost"}
           asChild

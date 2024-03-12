@@ -8,7 +8,7 @@ type SideBarProps = {};
 
 const SideBar = ({}: SideBarProps) => {
   return (
-    <div className="border-r px-3 py-4 flex flex-col gap-2">
+    <aside className="border-r px-3 py-4 hidden sm:flex flex-col gap-2">
       <Suspense fallback={<Skeleton className="h-10 w-10 rounded-sm" />}>
         <UserAvatarMenu
           className="h-10 w-10 rounded-sm"
@@ -18,7 +18,7 @@ const SideBar = ({}: SideBarProps) => {
       </Suspense>
       <SideBarList />
       <ThemeToggler hintSide="right" hintAlign="center" />
-    </div>
+    </aside>
   );
 };
 
