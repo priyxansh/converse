@@ -25,7 +25,7 @@ const SearchBar = ({}: SearchBarProps) => {
     }
 
     router.push(`/search?q=${debouncedSearchQuery}`);
-  }, [debouncedSearchQuery]);
+  }, [debouncedSearchQuery, router]);
 
   return (
     <div>
