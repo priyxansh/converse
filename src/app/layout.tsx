@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Nunito_Sans } from "next/font/google";
 import "./globals.css";
-import Provider from "@/providers/Provider";
 import { Toaster } from "@/components/ui/sonner";
+import RootProvider from "@/providers/RootProvider";
 
 const nunitoSans = Nunito_Sans({ subsets: ["latin"] });
 
@@ -14,10 +14,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={nunitoSans.className}>
-        <Provider>
+        <RootProvider>
           {children}
           <Toaster />
-        </Provider>
+        </RootProvider>
       </body>
     </html>
   );

@@ -3,11 +3,11 @@
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "./ThemeProvider";
 
-type ProviderProps = {
+type RootProviderProps = {
   children: React.ReactNode;
 };
 
-const Provider = ({ children }: ProviderProps) => {
+const RootProvider = ({ children }: RootProviderProps) => {
   return (
     <SessionProvider>
       <ThemeProvider
@@ -22,4 +22,4 @@ const Provider = ({ children }: ProviderProps) => {
   );
 };
 
-export default Provider;
+export default RootProvider;
