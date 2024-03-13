@@ -2,7 +2,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 
 type SearchResultCardProps = {
-  id: string;
   name: string;
   username: string;
   bio?: string | null;
@@ -10,7 +9,6 @@ type SearchResultCardProps = {
 };
 
 const SearchResultCard = ({
-  id,
   name,
   bio,
   image,
@@ -18,7 +16,7 @@ const SearchResultCard = ({
 }: SearchResultCardProps) => {
   return (
     <Link
-      href={`/profile/${id}`}
+      href={`/profile/${username}`}
       className="shadow sm:shadow-md p-2 sm:p-4 rounded-lg flex gap-2 sm:gap-5 border items-center"
     >
       <Avatar className="h-10 w-10 sm:h-12 sm:w-12">

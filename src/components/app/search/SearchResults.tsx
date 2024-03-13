@@ -95,7 +95,6 @@ const SearchResults = ({}: SearchResultsProps) => {
       {searchResults?.map((user) => (
         <SearchResultCard
           key={user.id}
-          id={user.id}
           name={user.name as string}
           username={user.username as string}
           image={user.image}

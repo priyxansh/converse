@@ -17,7 +17,7 @@ type SideBarListItemProps = {
 const SideBarListItem = ({ item }: SideBarListItemProps) => {
   // Check if the current path is the same as the item path
   const pathname = usePathname();
-  const isActive = pathname === item.path;
+  const isActive = pathname.includes(item.path);
 
   return (
     <Hint
