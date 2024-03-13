@@ -30,6 +30,7 @@ export const searchUsersByUsername = async (
       where: {
         username: {
           contains: username,
+          mode: "insensitive",
         },
         id: {
           not: session.user.id,
