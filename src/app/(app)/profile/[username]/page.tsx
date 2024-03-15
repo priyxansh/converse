@@ -1,3 +1,6 @@
+import UserProfileDisplay from "@/components/app/user/UserProfileDisplay";
+import BackButton from "@/components/global/BackButton";
+
 type UserProfilePageProps = {
   params: {
     username: string;
@@ -6,10 +9,10 @@ type UserProfilePageProps = {
 
 const UserProfilePage = ({ params: { username } }: UserProfilePageProps) => {
   return (
-    <div>
-      <h1>User Profile Page</h1>
-      <p>Username: {username}</p>
-    </div>
+    <main className="flex-grow py-4 px-2 sm:px-4 flex flex-col">
+      <BackButton url="/search" variant="ghost" />
+      <UserProfileDisplay username={username} />
+    </main>
   );
 };
 
