@@ -22,7 +22,10 @@ export const getUserByEmail = async ({
       where: {
         email: email,
       },
-      select,
+      select: {
+        ...select,
+        password: false,
+      },
     });
 
     return user;

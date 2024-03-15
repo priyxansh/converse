@@ -8,7 +8,12 @@ import { getUserByEmail } from "./getUserByEmail";
  * @returns {boolean} True if the user exists, false if the user does not exist
  */
 export const checkExistingUserByEmail = async (email: string) => {
-  const existingUser = await getUserByEmail({ email });
+  const existingUser = await getUserByEmail({
+    email: email,
+    select: {
+      id: true,
+    },
+  });
 
   if (existingUser) {
     return true;

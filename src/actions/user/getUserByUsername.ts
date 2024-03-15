@@ -22,7 +22,10 @@ export const getUserByUsername = async ({
       where: {
         username: username,
       },
-      select,
+      select: {
+        ...select,
+        password: false,
+      },
     });
 
     return user;
