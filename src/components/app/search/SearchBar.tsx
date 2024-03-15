@@ -32,7 +32,11 @@ const SearchBar = ({}: SearchBarProps) => {
       return;
     }
 
-    router.push(`/search?q=${debouncedSearchQuery}`);
+    // Encode search query
+    const encodedSearchQuery = encodeURIComponent(debouncedSearchQuery);
+
+    // Update query params
+    router.push(`/search?q=${encodedSearchQuery}`);
   }, [debouncedSearchQuery, router]);
 
   return (
