@@ -4,10 +4,10 @@ import { signIn } from "@/lib/auth";
 import { AuthenticateOptions } from "@/types/auth";
 import { checkExistingUserByEmail } from "../user/checkExistingUserByEmail";
 import { userCredentialsSchema } from "@/zod-schemas/userCredentialsSchema";
-import { getUserByEmail } from "../user/getUserByEmail";
 import { createUser } from "../user/createUser";
 import { hashPassword } from "./hashPassword";
 import { comparePassword } from "./comparePassword";
+import prisma from "@/lib/prisma";
 
 /**
  * Authenticates the user
@@ -78,7 +78,11 @@ export const authenticate = async (options: AuthenticateOptions) => {
 
       // Handle sign in
       // Get user from the database
-      const existingUser = await getUserByEmail({ email });
+      const existingUser = await prisma.user.findUnique({
+        where: {
+          email: email,
+        },
+      });
 
       // Throw an error if user not found
       if (!existingUser) {
