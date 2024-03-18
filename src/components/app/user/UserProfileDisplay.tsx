@@ -6,6 +6,7 @@ import { auth } from "@/lib/auth";
 import AddFriendButton from "./AddFriendButton";
 import RemoveFriendButton from "./RemoveFriendButton";
 import UserProfileAvatar from "./UserProfileAvatar";
+import CancelRequestButton from "./CancelRequestButton";
 
 type UserProfileDisplayProps = {
   username: string;
@@ -24,12 +25,18 @@ const UserProfileDisplay = async ({ username }: UserProfileDisplayProps) => {
       image: true,
       bio: true,
       friendsOf: true,
+      requestsReceived: true,
     },
   });
 
   // Check if user is friends with the current user
   const isFriend = user?.friendsOf?.some(
     (friend) => friend.username === session?.user.username
+  );
+
+  // Check if a friend request has been sent
+  const isRequestSent = user?.requestsReceived?.some(
+    (request) => request.senderId === session?.user.id
   );
 
   // If the user does not exist, return early
@@ -68,18 +75,18 @@ const UserProfileDisplay = async ({ username }: UserProfileDisplayProps) => {
                 Send Message
               </Button>
             </>
+          ) : isRequestSent ? (
+            <CancelRequestButton username={user.username as string} />
           ) : (
-            <>
-              <AddFriendButton />
-              <Button
-                variant="secondary"
-                size={"sm"}
-                className="bg-secondary/50 flex-grow"
-              >
-                Message Request
-              </Button>
-            </>
+            <AddFriendButton username={user.username as string} />
           )}
+          <Button
+            variant="secondary"
+            size={"sm"}
+            className="bg-accent flex-grow"
+          >
+            Message
+          </Button>
         </ButtonContainer>
       </div>
     </div>

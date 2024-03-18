@@ -5,6 +5,12 @@ import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+/**
+ * Removes a friend from the current user's friend list.
+ *
+ * @param username - The username of the friend to be removed.
+ * @returns A promise that resolves to an object with a `success` property indicating whether the friend was successfully removed, and an optional `error` property containing the error message if the removal failed.
+ */
 export const removeFriend = async (username: string) => {
   // Get the current user's session
   const session = await auth();
