@@ -3,6 +3,7 @@
 import { removeFriend } from "@/actions/user/removeFriend";
 import { Button } from "@/components/ui/button";
 import { Nunito_Sans } from "next/font/google";
+import { useState } from "react";
 import { toast } from "sonner";
 
 const nunitoSans = Nunito_Sans({ subsets: ["latin"] });
@@ -12,7 +13,11 @@ type RemoveFriendButtonProps = {
 };
 
 const RemoveFriendButton = ({ username }: RemoveFriendButtonProps) => {
+  const [loading, setLoading] = useState(false);
+
   const removeFriendHandler = async () => {
+    setLoading(true);
+
     // Show success toast
     const toastId = toast.success(
       <div
@@ -23,6 +28,7 @@ const RemoveFriendButton = ({ username }: RemoveFriendButtonProps) => {
           size={"sm"}
           onClick={() => {
             toast.dismiss(toastId);
+            setLoading(false);
           }}
         >
           Undo
@@ -35,10 +41,16 @@ const RemoveFriendButton = ({ username }: RemoveFriendButtonProps) => {
           // If an error occurs, dismiss this toast and show an error toast
           if (!removeFriendResult.success) {
             toast.dismiss(toastId);
-            return toast.error(
+
+            toast.error(
               "Something went wrong while removing friend. Please try again."
             );
           }
+
+          setLoading(false);
+        },
+        onDismiss: () => {
+          setLoading(false);
         },
       }
     );
@@ -50,6 +62,7 @@ const RemoveFriendButton = ({ username }: RemoveFriendButtonProps) => {
       size={"sm"}
       className="flex-grow"
       onClick={removeFriendHandler}
+      disabled={loading}
     >
       Remove Friend
     </Button>

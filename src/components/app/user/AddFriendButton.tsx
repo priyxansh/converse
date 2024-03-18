@@ -2,6 +2,7 @@
 
 import { sendFriendRequest } from "@/actions/user/sendFriendRequest";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import { toast } from "sonner";
 
 type AddFriendButtonProps = {
@@ -9,7 +10,9 @@ type AddFriendButtonProps = {
 };
 
 const AddFriendButton = ({ username }: AddFriendButtonProps) => {
-  const onClick = async () => {
+  const [loading, setLoading] = useState(false);
+
+  const sendRequestHandler = async () => {
     const sendFriendRequestResult = await sendFriendRequest(username);
 
     // Show toast if the target user has already sent a friend request to the current user
@@ -30,12 +33,19 @@ const AddFriendButton = ({ username }: AddFriendButtonProps) => {
     toast.success("Friend request sent!");
   };
 
+  const onClick = async () => {
+    setLoading(true);
+    await sendRequestHandler();
+    setLoading(false);
+  };
+
   return (
     <Button
       variant="default"
       size={"sm"}
       className="flex-grow"
       onClick={onClick}
+      disabled={loading}
     >
       Add Friend
     </Button>

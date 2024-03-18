@@ -2,6 +2,7 @@
 
 import { cancelFriendRequest } from "@/actions/user/cancelFriendRequest";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import { toast } from "sonner";
 
 type CancelRequestButtonProps = {
@@ -9,7 +10,9 @@ type CancelRequestButtonProps = {
 };
 
 const CancelRequestButton = ({ username }: CancelRequestButtonProps) => {
-  const onClick = async () => {
+  const [loading, setLoading] = useState(false);
+
+  const cancelRequestHandler = async () => {
     const cancelRequestResult = await cancelFriendRequest(username);
 
     // Show toast when no friend request was found
@@ -28,12 +31,19 @@ const CancelRequestButton = ({ username }: CancelRequestButtonProps) => {
     toast.success("Friend request cancelled.");
   };
 
+  const onClick = async () => {
+    setLoading(true);
+    await cancelRequestHandler();
+    setLoading(false);
+  };
+
   return (
     <Button
       variant="default"
       size={"sm"}
       className="flex-grow"
       onClick={onClick}
+      disabled={loading}
     >
       Cancel Request
     </Button>
