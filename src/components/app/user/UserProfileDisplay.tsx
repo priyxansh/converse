@@ -69,12 +69,7 @@ const UserProfileDisplay = async ({ username }: UserProfileDisplayProps) => {
         </div>
         <ButtonContainer className="mt-6 sm:mt-2 col-start-1 col-end-3 sm:col-start-2 justify-start">
           {isFriend ? (
-            <>
-              <RemoveFriendButton username={user.username as string} />
-              <Button size={"sm"} className="flex-grow">
-                Send Message
-              </Button>
-            </>
+            <RemoveFriendButton username={user.username as string} />
           ) : isRequestSent ? (
             <CancelRequestButton username={user.username as string} />
           ) : (
