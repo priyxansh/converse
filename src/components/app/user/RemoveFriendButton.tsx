@@ -46,9 +46,9 @@ const RemoveFriendButton = ({ username }: RemoveFriendButtonProps) => {
 
   return (
     <Button
-      variant="secondary"
+      variant="default"
       size={"sm"}
-      className="flex-grow bg-secondary/50"
+      className="flex-grow"
       onClick={removeFriendHandler}
     >
       Remove Friend
