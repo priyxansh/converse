@@ -16,7 +16,7 @@ export default function RootLayout({
       <body className={nunitoSans.className}>
         <RootProvider>
           {children}
-          <Toaster />
+          <Toaster style={nunitoSans.style} />
         </RootProvider>
       </body>
     </html>
