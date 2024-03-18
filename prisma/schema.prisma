@@ -53,9 +53,9 @@ model FriendRequest {
   receiverId String
   receiver   User   @relation("FriendRequestReceiver", fields: [receiverId], references: [id])
 
-  accepted Boolean @default(false)
-
   createdAt DateTime @default(now())
+
+  @@unique([senderId, receiverId])
 }
 
 model Chat {
