@@ -49,9 +49,6 @@ const RemoveFriendButton = ({ username }: RemoveFriendButtonProps) => {
 
           setLoading(false);
         },
-        onDismiss: () => {
-          setLoading(false);
-        },
       }
     );
   };
