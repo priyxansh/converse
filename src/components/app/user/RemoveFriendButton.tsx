@@ -15,6 +15,23 @@ type RemoveFriendButtonProps = {
 const RemoveFriendButton = ({ username }: RemoveFriendButtonProps) => {
   const [loading, setLoading] = useState(false);
 
+  const removeFriendActionHandler = async (
+    toastId: number | string | undefined
+  ) => {
+    const removeFriendResult = await removeFriend(username);
+
+    // If an error occurs, dismiss this toast and show an error toast
+    if (!removeFriendResult.success) {
+      toast.dismiss(toastId);
+
+      toast.error(
+        "Something went wrong while removing friend. Please try again."
+      );
+    }
+
+    setLoading(false);
+  };
+
   const removeFriendHandler = async () => {
     setLoading(true);
 
@@ -35,20 +52,8 @@ const RemoveFriendButton = ({ username }: RemoveFriendButtonProps) => {
         </Button>
       </div>,
       {
-        onAutoClose: async () => {
-          const removeFriendResult = await removeFriend(username);
-
-          // If an error occurs, dismiss this toast and show an error toast
-          if (!removeFriendResult.success) {
-            toast.dismiss(toastId);
-
-            toast.error(
-              "Something went wrong while removing friend. Please try again."
-            );
-          }
-
-          setLoading(false);
-        },
+        onAutoClose: async () => removeFriendActionHandler(toastId),
+        onDismiss: async () => removeFriendActionHandler(toastId),
       }
     );
   };
