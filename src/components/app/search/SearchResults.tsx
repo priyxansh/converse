@@ -45,7 +45,7 @@ const SearchResults = ({}: SearchResultsProps) => {
   if (!usernameSearchQuery) {
     return (
       <section className="w-full flex-grow flex items-center justify-center">
-        <p className="text-gray-500 text-center">
+        <p className="text-gray-500 text-center text-sm sm:text-base">
           Find people by entering their username in the search bar above.
         </p>
       </section>
@@ -66,7 +66,7 @@ const SearchResults = ({}: SearchResultsProps) => {
     return (
       <section className="w-full flex-grow flex items-center justify-center">
         <div className="flex flex-col gap-2 items-center justify-center">
-          <p className="text-center text-gray-500">
+          <p className="text-center text-gray-500 text-sm sm:text-base">
             There was an error fetching search results.
           </p>
           <Button
@@ -84,7 +84,7 @@ const SearchResults = ({}: SearchResultsProps) => {
   // Show a message if no search results were found
   if (searchResults?.length === 0) {
     return (
-      <section className="w-full flex-grow flex items-center justify-center">
+      <section className="w-full flex-grow flex items-center justify-center text-sm sm:text-base">
         <p className="text-gray-500 text-center">No users found.</p>
       </section>
     );
