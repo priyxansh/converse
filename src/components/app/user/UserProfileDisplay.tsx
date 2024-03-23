@@ -1,6 +1,5 @@
 import { getUserByUsername } from "@/actions/user/getUserByUsername";
 import ButtonContainer from "@/components/global/ButtonContainer";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/auth";
 import AddFriendButton from "./AddFriendButton";
