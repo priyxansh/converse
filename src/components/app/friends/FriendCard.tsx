@@ -12,10 +12,10 @@ const FriendCard = ({ username, name, image, bio }: FriendCardProps) => {
   return (
     <Link
       href={`/profile/${username}`}
-      className="shadow sm:shadow-md p-2 sm:p-4 rounded-lg flex gap-2 sm:gap-5 border items-center"
+      className="shadow sm:shadow-md p-2 md:p-4 rounded-lg flex gap-2 sm:gap-5 border items-center"
     >
       <Avatar className="h-10 w-10 sm:h-12 sm:w-12">
-        <AvatarImage src={image || ""} alt={`Profile picture of ${name}`} />
+        <AvatarImage src={image || ""} alt={`Profile picture of ${name}`} sizes="50px"/>
         <AvatarFallback>
           <span>{name[0]}</span>
         </AvatarFallback>

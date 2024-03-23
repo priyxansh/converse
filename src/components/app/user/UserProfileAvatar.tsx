@@ -24,7 +24,10 @@ const UserProfileAvatar = ({
         className={`${className}`}
         onClick={() => setIsDialogOpen((prev) => !prev)}
       >
-        <AvatarImage src={imageUrl} />
+        <AvatarImage
+          src={imageUrl}
+          sizes={"(min-width: 768px) 144px, (min-width: 640px) 96px, 80px"}
+        />
         <AvatarFallback className="text-2xl">
           {fallbackName?.split("")[0]}
         </AvatarFallback>
