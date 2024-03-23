@@ -22,6 +22,7 @@ const SearchResults = ({}: SearchResultsProps) => {
   const {
     data: searchResults,
     isLoading,
+    isRefetching,
     isError,
     refetch,
   } = useQuery({
@@ -52,8 +53,8 @@ const SearchResults = ({}: SearchResultsProps) => {
     );
   }
 
-  // Show a loading spinner while fetching search results
-  if (isLoading) {
+  // Show a loading spinner while fetching search results initially, or while refetching in case of an error. If the results are being refetched without an error, we'll show the previous search results while the new results are being fetched.
+  if (isLoading || (isRefetching && isError)) {
     return (
       <section className="w-full flex-grow flex items-center justify-center">
         <Spinner />
@@ -73,6 +74,7 @@ const SearchResults = ({}: SearchResultsProps) => {
             onClick={() => {
               refetch();
             }}
+            size={"sm"}
           >
             Try again
           </Button>
