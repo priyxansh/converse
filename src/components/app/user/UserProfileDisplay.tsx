@@ -28,16 +28,6 @@ const UserProfileDisplay = async ({ username }: UserProfileDisplayProps) => {
     },
   });
 
-  // Check if user is friends with the current user
-  const isFriend = user?.friendsOf?.some(
-    (friend) => friend.username === session?.user.username
-  );
-
-  // Check if a friend request has been sent
-  const isRequestSent = user?.requestsReceived?.some(
-    (request) => request.senderId === session?.user.id
-  );
-
   // If the user does not exist, return early
   if (!user) {
     return (
@@ -46,6 +36,16 @@ const UserProfileDisplay = async ({ username }: UserProfileDisplayProps) => {
       </div>
     );
   }
+
+  // Check if user is friends with the current user
+  const isFriend = user.friendsOf.some(
+    (friend) => friend.username === session?.user.username
+  );
+
+  // Check if a friend request has been sent
+  const requestSentId = user.requestsReceived.find(
+    (request) => request.senderId === session?.user.id
+  )?.id;
 
   return (
     <div className="flex flex-col items-center mt-5">
@@ -69,8 +69,8 @@ const UserProfileDisplay = async ({ username }: UserProfileDisplayProps) => {
         <ButtonContainer className="mt-6 sm:mt-2 col-start-1 col-end-3 sm:col-start-2 justify-start">
           {isFriend ? (
             <RemoveFriendButton username={user.username as string} />
-          ) : isRequestSent ? (
-            <CancelRequestButton username={user.username as string} />
+          ) : requestSentId ? (
+            <CancelRequestButton requestId={requestSentId} />
           ) : (
             <AddFriendButton username={user.username as string} />
           )}
