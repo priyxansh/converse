@@ -48,8 +48,8 @@ const FriendRequestCard = ({
         </div>
       </Link>
       <ButtonContainer className="ml-auto flex w-full lg:w-auto">
-        <AcceptRequestButton id={id} />
-        <RejectRequestButton id={id} />
+        <AcceptRequestButton requestId={id} username={username} />
+        <RejectRequestButton requestId={id} />
       </ButtonContainer>
     </div>
   );
