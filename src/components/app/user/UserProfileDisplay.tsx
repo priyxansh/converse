@@ -3,9 +3,9 @@ import ButtonContainer from "@/components/global/ButtonContainer";
 import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/auth";
 import AddFriendButton from "./AddFriendButton";
-import RemoveFriendButton from "./RemoveFriendButton";
 import UserProfileAvatar from "./UserProfileAvatar";
 import CancelRequestButton from "./CancelRequestButton";
+import RemoveFriendDialog from "./RemoveFriendDialog";
 
 type UserProfileDisplayProps = {
   username: string;
@@ -68,7 +68,7 @@ const UserProfileDisplay = async ({ username }: UserProfileDisplayProps) => {
         </div>
         <ButtonContainer className="mt-6 sm:mt-2 col-start-1 col-end-3 sm:col-start-2 justify-start">
           {isFriend ? (
-            <RemoveFriendButton username={user.username as string} />
+            <RemoveFriendDialog username={user.username as string} />
           ) : requestSentId ? (
             <CancelRequestButton requestId={requestSentId} />
           ) : (
