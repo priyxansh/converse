@@ -88,8 +88,18 @@ model Group {
   createdAt DateTime @default(now())
 }
 
+enum MessageType {
+  TEXT
+  IMAGE
+  VIDEO
+  AUDIO
+  FILE
+  ALERT
+}
+
 model Message {
-  id      String @id @default(uuid())
+  id      String      @id @default(uuid())
+  type    MessageType @default(TEXT)
   content String
 
   senderId String
