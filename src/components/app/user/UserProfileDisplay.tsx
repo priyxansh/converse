@@ -6,14 +6,15 @@ import AddFriendButton from "./AddFriendButton";
 import UserProfileAvatar from "./UserProfileAvatar";
 import CancelRequestButton from "./CancelRequestButton";
 import RemoveFriendDialog from "./RemoveFriendDialog";
+import { Session } from "next-auth";
 
 type UserProfileDisplayProps = {
   username: string;
 };
 
 const UserProfileDisplay = async ({ username }: UserProfileDisplayProps) => {
-  // Get user session
-  const session = await auth();
+  // Get user session. Redirection is handled by middleware, so we can safely assume that the user is authenticated and the session is available.
+  const session = (await auth()) as Session;
 
   // Get the user by their username
   const user = await getUserByUsername({
@@ -72,7 +73,12 @@ const UserProfileDisplay = async ({ username }: UserProfileDisplayProps) => {
           ) : requestSentId ? (
             <CancelRequestButton requestId={requestSentId} />
           ) : (
-            <AddFriendButton username={user.username as string} />
+            <AddFriendButton
+              senderName={session.user.name as string}
+              senderUsername={session.user.username as string}
+              receiverUsername={user.username as string}
+              receiverName={user.name as string}
+            />
           )}
           <Button
             variant="secondary"

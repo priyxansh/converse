@@ -1,5 +1,7 @@
 "use client";
 
+import { friendRequestController } from "@/socket-controllers/friendRequestController";
+import { useSession } from "next-auth/react";
 import { createContext, useContext, useEffect } from "react";
 import { io, Socket } from "socket.io-client";
 
@@ -13,31 +15,30 @@ type SocketProviderProps = {
 };
 
 const SocketProvider = ({ children }: SocketProviderProps) => {
-  // Get the socket URL from the environment variables
-  const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL;
+  // Get user session for joining the socket room with the user's username
+  const { data: session } = useSession();
 
-  // If the socket URL is not found, show an error message
-  if (!socketUrl) {
-    return (
-      <div className="flex-grow flex flex-col items-center justify-center p-4 text-center gap-2">
-        <h1 className="font-semibold sm:text-lg">Socket URL not found :(</h1>
-        <p className="text-sm sm:text-base">
-          Please add the socket URL to the environment variables in the .env
-          file.
-        </p>
-      </div>
-    );
-  }
+  // Get the socket URL from the environment variables
+  const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL as string;
 
   // Create a socket connection
   const socket = io(socketUrl);
+
+  socket.on("friend_request", friendRequestController);
+
+  // Join the socket room with the user's username
+  useEffect(() => {
+    if (socket && session?.user) {
+      socket.emit("join", session.user.username);
+    }
+  }, [socket, session]);
 
   // Disconnect the socket when the component unmounts
   useEffect(() => {
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [socket]);
 
   return (
     <SocketContext.Provider
