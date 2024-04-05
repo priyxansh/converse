@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useEffect } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { io, Socket } from "socket.io-client";
 
 // Create a context for the socket
@@ -50,6 +50,16 @@ const SocketProvider = ({ children }: SocketProviderProps) => {
       {children}
     </SocketContext.Provider>
   );
+};
+
+export const useSocket = () => {
+  const context = useContext(SocketContext);
+
+  if (!context) {
+    throw new Error("useSocket must be used within a SocketProvider");
+  }
+
+  return context;
 };
 
 export default SocketProvider;
