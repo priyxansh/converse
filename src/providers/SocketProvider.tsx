@@ -6,7 +6,6 @@ import { io, Socket } from "socket.io-client";
 // Create a context for the socket
 const SocketContext = createContext<{
   socket: Socket;
-  isConnected: boolean;
 } | null>(null);
 
 type SocketProviderProps = {
@@ -44,7 +43,6 @@ const SocketProvider = ({ children }: SocketProviderProps) => {
     <SocketContext.Provider
       value={{
         socket,
-        isConnected: socket.connected,
       }}
     >
       {children}
