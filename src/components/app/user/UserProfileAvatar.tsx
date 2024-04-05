@@ -27,6 +27,8 @@ const UserProfileAvatar = ({
         <AvatarImage
           src={imageUrl}
           sizes={"(min-width: 768px) 200px, (min-width: 640px) 96px, 80px"}
+          alt={`Avatar for ${fallbackName}`}
+          priority
         />
         <AvatarFallback className="text-2xl">
           {fallbackName?.split("")[0]}
