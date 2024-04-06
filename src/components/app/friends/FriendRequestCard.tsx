@@ -7,6 +7,8 @@ import RejectRequestButton from "./RejectRequestButton";
 type FriendRequestCardProps = {
   id: string;
   username: string;
+  receiverUsername: string;
+  receiverName: string;
   image: string | null;
   name: string;
   bio: string | null;
@@ -15,6 +17,8 @@ type FriendRequestCardProps = {
 const FriendRequestCard = ({
   id,
   username,
+  receiverUsername,
+  receiverName,
   name,
   image,
   bio,
@@ -48,7 +52,12 @@ const FriendRequestCard = ({
         </div>
       </Link>
       <ButtonContainer className="ml-auto flex w-full lg:w-auto">
-        <AcceptRequestButton requestId={id} username={username} />
+        <AcceptRequestButton
+          requestId={id}
+          username={username}
+          receiverUsername={receiverUsername}
+          receiverName={receiverName}
+        />
         <RejectRequestButton requestId={id} />
       </ButtonContainer>
     </div>

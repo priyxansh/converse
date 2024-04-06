@@ -2,22 +2,27 @@
 
 import { acceptFriendRequest } from "@/actions/user/acceptFriendRequest";
 import { Button } from "@/components/ui/button";
+import { useSocket } from "@/providers/SocketProvider";
 import { useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
 type AcceptRequestButtonProps = {
   requestId: string;
   username: string;
+  receiverUsername: string;
+  receiverName: string;
 };
 
 const AcceptRequestButton = ({
   requestId,
   username,
+  receiverUsername,
+  receiverName,
 }: AcceptRequestButtonProps) => {
+  const { socket } = useSocket();
+
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   // Get the query client for invalidating the query cache
   const queryClient = useQueryClient();
@@ -43,8 +48,12 @@ const AcceptRequestButton = ({
       queryKey: ["friends"],
     });
 
-    // Refresh the page
-    // router.refresh();
+    // Emit a friend request accepted event to the server
+    socket.emit("accept_friend_request", {
+      senderUsername: username,
+      receiverUsername: receiverUsername,
+      receiverName: receiverName,
+    });
 
     // Show success toast
     toast.success("Friend request accepted!");

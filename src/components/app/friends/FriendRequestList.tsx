@@ -58,7 +58,7 @@ const FriendRequestList = ({}: FriendRequestListProps) => {
     return (
       <section className="w-full flex-grow flex items-center justify-center text-sm sm:text-base">
         <p className="text-gray-600 dark:text-gray-400 text-center text-sm sm:text-base flex gap-1 flex-wrap items-center justify-center">
-          Emptiness is a state of mind.
+          Nothing to see here.
         </p>
       </section>
     );
@@ -66,16 +66,20 @@ const FriendRequestList = ({}: FriendRequestListProps) => {
 
   return (
     <section className="py-6 px-0 md:px-6 lg:px-7 xl:px-10 grid sm:grid-cols-2 gap-2 sm:gap-4 flex-grow auto-rows-max">
-      {friendRequests?.map(({ id, sender: { username, name, image, bio } }) => (
-        <FriendRequestCard
-          key={id}
-          id={id}
-          username={username as string}
-          name={name as string}
-          image={image}
-          bio={bio}
-        />
-      ))}
+      {friendRequests?.map(
+        ({ id, sender: { username, name, image, bio }, receiver }) => (
+          <FriendRequestCard
+            key={id}
+            id={id}
+            username={username as string}
+            receiverUsername={receiver.username as string}
+            receiverName={receiver.name as string}
+            name={name as string}
+            image={image}
+            bio={bio}
+          />
+        )
+      )}
     </section>
   );
 };

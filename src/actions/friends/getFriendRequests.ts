@@ -33,6 +33,13 @@ export const getFriendRequests = async () => {
           bio: true,
         },
       },
+      receiver: {
+        select: {
+          id: true,
+          username: true,
+          name: true,
+        },
+      },
     },
   });
 
