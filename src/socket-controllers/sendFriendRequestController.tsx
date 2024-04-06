@@ -2,7 +2,7 @@
 
 import { toast } from "sonner";
 
-export const friendRequestController = (data: {
+export const sendFriendRequestController = (data: {
   senderUsername: string;
   senderName: string;
 }) => {

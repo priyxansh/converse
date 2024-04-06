@@ -41,7 +41,7 @@ const AddFriendButton = ({
     }
 
     // Emit a friend request event to the server
-    socket.emit("friend_request", {
+    socket.emit("send_friend_request", {
       senderUsername: senderUsername,
       senderName: senderName,
       receiverUsername: receiverUsername,

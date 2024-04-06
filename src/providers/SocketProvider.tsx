@@ -1,6 +1,6 @@
 "use client";
 
-import { friendRequestController } from "@/socket-controllers/friendRequestController";
+import { sendFriendRequestController } from "@/socket-controllers/sendFriendRequestController";
 import { useSession } from "next-auth/react";
 import { createContext, useContext, useEffect } from "react";
 import { io, Socket } from "socket.io-client";
@@ -24,14 +24,15 @@ const SocketProvider = ({ children }: SocketProviderProps) => {
   // Create a socket connection
   const socket = io(socketUrl);
 
-  socket.on("friend_request", friendRequestController);
-
   // Join the socket room with the user's username
   useEffect(() => {
     if (socket && session?.user) {
       socket.emit("join", session.user.username);
     }
   }, [socket, session]);
+
+  // Listen for socket events
+  socket.on("receive_friend_request", sendFriendRequestController);
 
   // Disconnect the socket when the component unmounts
   useEffect(() => {
