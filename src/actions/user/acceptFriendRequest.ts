@@ -62,6 +62,30 @@ export const acceptFriendRequest = async (
       },
     });
 
+    // Check if the users already have a chat
+    const existingChat = await prisma.chat.findFirst({
+      where: {
+        AND: [
+          {
+            isGroup: false,
+          },
+          { members: { some: { id: currentUser.id } } },
+          { members: { some: { id: targetUser.id } } },
+        ],
+      },
+    });
+
+    // If a chat already exists, return early
+    if (existingChat) {
+      await prisma.$transaction([
+        deleteRequestPromise,
+        connectCurrentUserPromise,
+        connectTargetUserPromise,
+      ]);
+
+      return { success: true };
+    }
+
     // Create a new chat between the current user and the target user
     const createChatPromise = prisma.chat.create({
       data: {
