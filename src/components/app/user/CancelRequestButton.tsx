@@ -2,8 +2,9 @@
 
 import { deleteFriendRequest } from "@/actions/user/deleteFriendRequest";
 import { Button } from "@/components/ui/button";
+import { useSocket } from "@/providers/SocketProvider";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 type CancelRequestButtonProps = {
@@ -13,6 +14,21 @@ type CancelRequestButtonProps = {
 const CancelRequestButton = ({ requestId }: CancelRequestButtonProps) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  const { socket } = useSocket();
+
+  const refreshPage = () => {
+    router.refresh();
+  };
+
+  // Add a socket event listener for when the friend request is accepted
+  useEffect(() => {
+    socket.on("accept_friend_request", refreshPage);
+
+    return () => {
+      socket.off("accept_friend_request", refreshPage);
+    };
+  }, [socket, router]);
 
   const cancelRequestHandler = async () => {
     const deleteRequestResult = await deleteFriendRequest(requestId);
@@ -30,7 +46,7 @@ const CancelRequestButton = ({ requestId }: CancelRequestButtonProps) => {
     }
 
     // Refresh the page
-    router.refresh();
+    refreshPage();
 
     // Show toast on success
     toast.success("Friend request cancelled.");
