@@ -62,11 +62,37 @@ export const acceptFriendRequest = async (
       },
     });
 
+    // Create a new chat between the current user and the target user
+    const createChatPromise = prisma.chat.create({
+      data: {
+        members: {
+          connect: [{ id: currentUser.id }, { id: targetUser.id }],
+        },
+        messages: {
+          create: {
+            type: "ALERT",
+            content: "You are now friends. Say hi!",
+            sender: {
+              connect: {
+                id: currentUser.id,
+              },
+            },
+            recipient: {
+              connect: {
+                id: targetUser.id,
+              },
+            },
+          },
+        },
+      },
+    });
+
     // Wait for all promises to resolve
     await prisma.$transaction([
       deleteRequestPromise,
       connectCurrentUserPromise,
       connectTargetUserPromise,
+      createChatPromise,
     ]);
 
     return { success: true };

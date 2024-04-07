@@ -60,7 +60,7 @@ model FriendRequest {
 
 model Chat {
   id      String  @id @default(uuid())
-  name    String
+  name    String?
   isGroup Boolean @default(false)
 
   members User[] @relation("ChatMembers")
