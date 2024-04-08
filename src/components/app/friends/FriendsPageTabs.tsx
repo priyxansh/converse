@@ -33,7 +33,10 @@ const FriendsPageTabs = async ({}: FriendsPageTabsProps) => {
   });
 
   return (
-    <Tabs defaultValue="friends" className="w-full flex-grow flex flex-col">
+    <Tabs
+      defaultValue="friends"
+      className="w-full flex-grow flex flex-col h-full"
+    >
       <TabsList className="w-full flex flex-wrap h-auto">
         <TabsTrigger value="friends" className="flex-grow">
           Friends
@@ -44,7 +47,7 @@ const FriendsPageTabs = async ({}: FriendsPageTabsProps) => {
       </TabsList>
       <TabsContent
         value="friends"
-        className="flex-grow hidden data-[state=active]:flex"
+        className="flex-grow hidden data-[state=active]:flex flex-col h-full"
       >
         <HydrationBoundary state={dehydrate(queryClient)}>
           <FriendList />
@@ -52,7 +55,7 @@ const FriendsPageTabs = async ({}: FriendsPageTabsProps) => {
       </TabsContent>
       <TabsContent
         value="requests"
-        className="hidden flex-grow data-[state=active]:flex"
+        className="hidden flex-grow data-[state=active]:flex flex-col h-full"
       >
         <HydrationBoundary state={dehydrate(queryClient)}>
           <FriendRequestList />

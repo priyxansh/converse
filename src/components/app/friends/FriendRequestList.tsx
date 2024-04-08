@@ -5,6 +5,7 @@ import Spinner from "@/components/global/Spinner";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import FriendRequestCard from "./FriendRequestCard";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type FriendRequestListProps = {};
 
@@ -65,22 +66,24 @@ const FriendRequestList = ({}: FriendRequestListProps) => {
   }
 
   return (
-    <section className="py-6 px-0 md:px-6 lg:px-7 xl:px-10 grid sm:grid-cols-2 gap-2 sm:gap-4 flex-grow auto-rows-max">
-      {friendRequests?.map(
-        ({ id, sender: { username, name, image, bio }, receiver }) => (
-          <FriendRequestCard
-            key={id}
-            id={id}
-            username={username as string}
-            receiverUsername={receiver.username as string}
-            receiverName={receiver.name as string}
-            name={name as string}
-            image={image}
-            bio={bio}
-          />
-        )
-      )}
-    </section>
+    <ScrollArea className="h-full mb-6">
+      <section className="py-6 px-0 md:px-6 lg:px-7 xl:px-10 grid sm:grid-cols-2 gap-2 sm:gap-4 flex-grow auto-rows-max">
+        {friendRequests?.map(
+          ({ id, sender: { username, name, image, bio }, receiver }) => (
+            <FriendRequestCard
+              key={id}
+              id={id}
+              username={username as string}
+              receiverUsername={receiver.username as string}
+              receiverName={receiver.name as string}
+              name={name as string}
+              image={image}
+              bio={bio}
+            />
+          )
+        )}
+      </section>
+    </ScrollArea>
   );
 };
 

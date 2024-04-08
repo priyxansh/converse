@@ -6,7 +6,7 @@ type FriendsPageProps = {};
 
 const FriendsPage = ({}: FriendsPageProps) => {
   return (
-    <main className="flex-grow py-4 px-2 sm:px-4 flex flex-col">
+    <main className="overflow-hidden flex-grow py-4 px-2 sm:px-4 flex flex-col">
       <Suspense
         fallback={
           <div className="w-full flex-grow grid place-items-center">
