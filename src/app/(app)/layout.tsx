@@ -8,7 +8,7 @@ type AppLayoutProps = {
 
 const AppLayout = ({ children }: AppLayoutProps) => {
   return (
-    <div className="flex min-h-screen-svh flex-col sm:flex-row">
+    <div className="flex h-screen flex-col sm:flex-row">
       <SideBar />
       <AppProvider>{children}</AppProvider>
       <BottomBar />

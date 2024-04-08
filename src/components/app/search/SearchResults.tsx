@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import SearchResultCard from "./SearchResultCard";
 import Spinner from "@/components/global/Spinner";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type SearchResultsProps = {};
 
@@ -95,17 +96,19 @@ const SearchResults = ({}: SearchResultsProps) => {
   }
 
   return (
-    <section className="py-6 px-0 md:px-6 lg:px-7 xl:px-10 grid sm:grid-cols-2 gap-2 sm:gap-4">
-      {searchResults?.map((user) => (
-        <SearchResultCard
-          key={user.id}
-          name={user.name as string}
-          username={user.username as string}
-          image={user.image}
-          bio={user.bio}
-        />
-      ))}
-    </section>
+    <ScrollArea className="h-full">
+      <section className="py-6 px-0 md:px-6 lg:px-7 xl:px-10 grid sm:grid-cols-2 gap-2 sm:gap-4">
+        {searchResults?.map((user) => (
+          <SearchResultCard
+            key={user.id}
+            name={user.name as string}
+            username={user.username as string}
+            image={user.image}
+            bio={user.bio}
+          />
+        ))}
+      </section>
+    </ScrollArea>
   );
 };
 
