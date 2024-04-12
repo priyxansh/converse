@@ -28,7 +28,7 @@ const CancelRequestButton = ({ requestId }: CancelRequestButtonProps) => {
     return () => {
       socket.off("accept_friend_request", refreshPage);
     };
-  }, [socket, router]);
+  }, [socket, router, refreshPage]);
 
   const cancelRequestHandler = async () => {
     const deleteRequestResult = await deleteFriendRequest(requestId);
