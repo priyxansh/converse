@@ -75,7 +75,9 @@ model Chat {
 
 // For group conversations
 model Group {
-  id String @id @default(uuid())
+  id        String  @id @default(uuid())
+  avatar    String?
+  avatarKey String?
 
   creatorId String
   creator   User   @relation("GroupCreator", fields: [creatorId], references: [id])
