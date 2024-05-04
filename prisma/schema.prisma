@@ -97,9 +97,16 @@ enum MessageType {
   ALERT
 }
 
+enum MessageStatus {
+  SENT
+  DELIVERED
+  READ
+}
+
 model Message {
-  id      String      @id @default(uuid())
-  type    MessageType @default(TEXT)
+  id      String        @id @default(uuid())
+  type    MessageType   @default(TEXT)
+  status  MessageStatus @default(SENT)
   content String
 
   senderId String
