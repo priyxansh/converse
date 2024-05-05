@@ -1,8 +1,12 @@
+"use client";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FormattedChat } from "@/types/chat";
 import { getSenderName } from "@/utils/getSenderName";
 import { getFormattedDate } from "@/utils/getFormattedDate";
 import { getReadReceiptIcon } from "@/utils/getReadReceiptIcon";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 type ChatItemProps = {
   chat: FormattedChat;
@@ -10,6 +14,7 @@ type ChatItemProps = {
 
 const ChatItem = ({
   chat: {
+    id,
     name,
     lastMessage,
     lastMessageStatus,
@@ -18,8 +23,16 @@ const ChatItem = ({
     avatar,
   },
 }: ChatItemProps) => {
+  const pathname = usePathname();
+  const isActive = pathname.split("/")[2] === id;
+
   return (
-    <div className="flex items-center px-2 py-4 gap-4 border-b">
+    <Link
+      href={`/chat/${id}`}
+      className={`flex items-center px-2 py-4 gap-4 border-b ${
+        isActive ? "bg-accent" : ""
+      }`}
+    >
       <Avatar className="w-11 h-11">
         <AvatarImage src={avatar || ""} alt={name} sizes="50px" />
         <AvatarFallback>{name.slice(0, 1).toUpperCase()}</AvatarFallback>
@@ -59,7 +72,7 @@ const ChatItem = ({
           </span>
         </p>
       </div>
-    </div>
+    </Link>
   );
 };
 
