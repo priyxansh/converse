@@ -11,8 +11,26 @@ type ChatItemProps = {
 };
 
 const ChatItem = ({
-  chat: { name, lastMessage, lastMessageStatus, unreadCount, avatar },
+  chat: {
+    name,
+    lastMessage,
+    lastMessageStatus,
+    isLastMessageSentByUser,
+    unreadCount,
+    avatar,
+  },
 }: ChatItemProps) => {
+  const returnSenderName = () => {
+    if (lastMessage.type === "ALERT") {
+      return null;
+    }
+    if (isLastMessageSentByUser) {
+      return "You";
+    } else {
+      return lastMessage.sender.name;
+    }
+  };
+
   return (
     <div className="flex items-center px-2 py-4 gap-4 border-b">
       <Avatar className="w-11 h-11">
@@ -27,7 +45,7 @@ const ChatItem = ({
           </span>
           <span className="text-xs text-gray-500">
             <span className="ml-auto block w-max">
-              {lastMessage.sender.name} ·{" "}
+              {returnSenderName()} {lastMessage.type === "ALERT" ? "" : "·"}{" "}
               {differenceInHours(new Date(), new Date(lastMessage.createdAt)) <
               24
                 ? formatDistanceToNowStrict(new Date(lastMessage.createdAt), {

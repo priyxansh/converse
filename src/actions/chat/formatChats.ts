@@ -44,6 +44,7 @@ export const formatChats = async (
         isGroup: isGroup,
         lastMessage,
         lastMessageStatus,
+        isLastMessageSentByUser,
         unreadCount: isLastMessageSentByUser
           ? -1 // If the last message was sent by the current user, the unread count is set to -1.
           : messages.filter((message) => {
