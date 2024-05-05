@@ -1,10 +1,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FormattedChat } from "@/types/chat";
-import {
-  formatDate,
-  differenceInHours,
-  formatDistanceToNowStrict,
-} from "date-fns";
+import { getSenderName } from "@/utils/getSenderName";
+import { getFormattedDate } from "@/utils/getFormattedDate";
+import { getReadReceiptIcon } from "@/utils/getReadReceiptIcon";
 
 type ChatItemProps = {
   chat: FormattedChat;
@@ -20,17 +18,6 @@ const ChatItem = ({
     avatar,
   },
 }: ChatItemProps) => {
-  const returnSenderName = () => {
-    if (lastMessage.type === "ALERT") {
-      return null;
-    }
-    if (isLastMessageSentByUser) {
-      return "You";
-    } else {
-      return lastMessage.sender.name;
-    }
-  };
-
   return (
     <div className="flex items-center px-2 py-4 gap-4 border-b">
       <Avatar className="w-11 h-11">
@@ -40,19 +27,35 @@ const ChatItem = ({
       <div className="flex flex-col flex-grow">
         <span className="text-base font-semibold">{name}</span>
         <p className="flex items-center gap-1">
-          <span className="text-sm line-clamp-1 w-full font-medium">
+          <span
+            className={`text-sm line-clamp-1 w-full ${
+              unreadCount > 0 ? "font-bold" : ""
+            }`}
+          >
             {lastMessage.content}
           </span>
           <span className="text-xs text-gray-500">
-            <span className="ml-auto block w-max">
-              {returnSenderName()} {lastMessage.type === "ALERT" ? "" : "·"}{" "}
-              {differenceInHours(new Date(), new Date(lastMessage.createdAt)) <
-              24
-                ? formatDistanceToNowStrict(new Date(lastMessage.createdAt), {
-                    addSuffix: true,
-                  })
-                : formatDate(new Date(lastMessage.createdAt), "dd/MM/yyyy")}
-            </span>
+            {lastMessage.type !== "ALERT" ? (
+              <span className="ml-auto w-max flex gap-2">
+                <span>
+                  {getSenderName(
+                    isLastMessageSentByUser,
+                    lastMessage.sender.name as string
+                  )}{" "}
+                  · {getFormattedDate(lastMessage.createdAt)}
+                </span>
+                <span>
+                  {getReadReceiptIcon(
+                    isLastMessageSentByUser,
+                    lastMessageStatus
+                  )}
+                </span>
+              </span>
+            ) : (
+              <span className="ml-auto block w-max">
+                {getFormattedDate(lastMessage.createdAt)}
+              </span>
+            )}
           </span>
         </p>
       </div>
