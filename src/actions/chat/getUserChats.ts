@@ -63,6 +63,12 @@ export const getUserChats = async () => {
             id: true,
             name: true,
             username: true,
+            image: true,
+          },
+        },
+        group: {
+          select: {
+            avatar: true,
           },
         },
       },

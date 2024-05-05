@@ -1,4 +1,4 @@
-import { $Enums, PrismaClient } from "@prisma/client";
+import { $Enums } from "@prisma/client";
 import { Chat, Message } from "./prisma";
 
 export type ClientChat = Chat<{
@@ -30,6 +30,12 @@ export type ClientChat = Chat<{
         id: true;
         name: true;
         username: true;
+        image: true;
+      };
+    };
+    group: {
+      select: {
+        avatar: true;
       };
     };
   };
@@ -38,6 +44,7 @@ export type ClientChat = Chat<{
 export type FormattedChat = {
   id: string;
   name: string;
+  avatar?: string | null;
   isGroup: boolean;
   lastMessage: Message<{
     select: {
