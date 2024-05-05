@@ -40,8 +40,8 @@ const ChatSideBar = ({}: ChatSideBarProps) => {
     // Todo: Add skeleton list that fills the height of the sidebar
     return (
       <aside
-        className={`px-4 h-full border-r md:max-w-[350px] flex-grow grid place-items-center ${
-          isChatOpen ? "hidden md:block" : ""
+        className={`px-4 h-full border-r md:max-w-[350px] flex-grow place-items-center ${
+          isChatOpen ? "hidden md:grid" : ""
         }`}
       >
         <Spinner />
