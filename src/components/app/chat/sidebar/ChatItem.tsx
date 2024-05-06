@@ -29,8 +29,8 @@ const ChatItem = ({
   return (
     <Link
       href={`/chat/${id}`}
-      className={`flex items-center px-2 py-4 gap-4 border-b ${
-        isActive ? "bg-accent" : ""
+      className={`flex items-center px-2 py-4 gap-4 border-b hover:bg-accent ${
+        isActive ? "bg-accent/80" : ""
       }`}
     >
       <Avatar className="w-11 h-11">
