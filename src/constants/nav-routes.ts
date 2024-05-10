@@ -2,7 +2,7 @@ export const NAV_ROUTES = [
   {
     id: 1,
     label: "Home",
-    path: "/home",
+    path: "/",
   },
   {
     id: 2,

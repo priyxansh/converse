@@ -11,7 +11,7 @@ const HomeButton = ({
 }: HomeButtonProps) => {
   return (
     <Button asChild variant={"ghost"} className={className}>
-      <Link href="/home" className="flex items-center justify-center">
+      <Link href="/" className="flex items-center justify-center">
         <ChevronLeftIcon className="w-5 h-5" />
         <span>Home</span>
       </Link>

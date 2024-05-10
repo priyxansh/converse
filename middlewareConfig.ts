@@ -2,7 +2,6 @@ export const middlewareConfig = {
   excludedPaths: {
     withRedirectToAuth: [
       "/",
-      "/home",
       "/about",
       "/faq",
       "/feedback",
