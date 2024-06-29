@@ -49,7 +49,7 @@ const AcceptRequestButton = ({
     });
 
     // Emit a friend request accepted event to the server
-    socket.emit("accept_friend_request", {
+    socket?.emit("accept_friend_request", {
       senderUsername: username,
       receiverUsername: receiverUsername,
       receiverName: receiverName,

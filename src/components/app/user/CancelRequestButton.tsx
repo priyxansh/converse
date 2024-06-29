@@ -23,10 +23,14 @@ const CancelRequestButton = ({ requestId }: CancelRequestButtonProps) => {
 
   // Add a socket event listener for when the friend request is accepted
   useEffect(() => {
-    socket.on("accept_friend_request", refreshPage);
+    if (socket) {
+      socket.on("accept_friend_request", refreshPage);
+    }
 
     return () => {
-      socket.off("accept_friend_request", refreshPage);
+      if (socket) {
+        socket.off("accept_friend_request", refreshPage);
+      }
     };
   }, [socket, router, refreshPage]);
 

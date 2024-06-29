@@ -3,12 +3,12 @@
 import { acceptFriendRequestController } from "@/socket-controllers/acceptFriendRequestController";
 import { sendFriendRequestController } from "@/socket-controllers/sendFriendRequestController";
 import { useSession } from "next-auth/react";
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 
 // Create a context for the socket
 const SocketContext = createContext<{
-  socket: Socket;
+  socket: Socket | null;
 } | null>(null);
 
 type SocketProviderProps = {
@@ -23,7 +23,12 @@ const SocketProvider = ({ children }: SocketProviderProps) => {
   const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL as string;
 
   // Create a socket connection
-  const socket = io(socketUrl);
+  const [socket, setSocket] = useState<Socket | null>(null);
+
+  useEffect(() => {
+    const socket = io(socketUrl);
+    setSocket(socket);
+  }, []);
 
   // Join the socket room with the user's username
   useEffect(() => {
@@ -33,13 +38,26 @@ const SocketProvider = ({ children }: SocketProviderProps) => {
   }, [socket, session]);
 
   // Listen for socket events
-  socket.on("receive_friend_request", sendFriendRequestController);
-  socket.on("accept_friend_request", acceptFriendRequestController);
+  useEffect(() => {
+    if (socket) {
+      socket.on("receive_friend_request", sendFriendRequestController);
+      socket.on("accept_friend_request", acceptFriendRequestController);
+    }
+
+    return () => {
+      if (socket) {
+        socket.off("receive_friend_request", sendFriendRequestController);
+        socket.off("accept_friend_request", acceptFriendRequestController);
+      }
+    };
+  }, [socket]);
 
   // Disconnect the socket when the component unmounts
   useEffect(() => {
     return () => {
-      socket.disconnect();
+      if (socket) {
+        socket.disconnect();
+      }
     };
   }, [socket]);
 
