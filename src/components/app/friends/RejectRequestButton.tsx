@@ -2,16 +2,22 @@
 
 import { deleteFriendRequest } from "@/actions/user/deleteFriendRequest";
 import { Button } from "@/components/ui/button";
+import { useSocket } from "@/providers/SocketProvider";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 
 type RejectRequestButtonProps = {
   requestId: string;
+  username: string;
 };
 
-const RejectRequestButton = ({ requestId }: RejectRequestButtonProps) => {
+const RejectRequestButton = ({
+  requestId,
+  username,
+}: RejectRequestButtonProps) => {
   const [loading, setLoading] = useState(false);
+  const { socket } = useSocket();
 
   const queryClient = useQueryClient();
 
@@ -34,6 +40,11 @@ const RejectRequestButton = ({ requestId }: RejectRequestButtonProps) => {
     // Refetch query
     queryClient.refetchQueries({
       queryKey: ["friendRequests"],
+    });
+
+    socket?.emit("reject_friend_request", {
+      senderUsername: username,
+      requestId,
     });
 
     // Show a success toast

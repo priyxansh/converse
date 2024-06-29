@@ -58,7 +58,7 @@ const FriendRequestCard = ({
           receiverUsername={receiverUsername}
           receiverName={receiverName}
         />
-        <RejectRequestButton requestId={id} />
+        <RejectRequestButton requestId={id} username={username} />
       </ButtonContainer>
     </div>
   );

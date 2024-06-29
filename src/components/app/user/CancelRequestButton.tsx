@@ -21,18 +21,26 @@ const CancelRequestButton = ({ requestId }: CancelRequestButtonProps) => {
     router.refresh();
   };
 
-  // Add a socket event listener for when the friend request is accepted
+  // Listen for relevant socket events
+  const handleRejectFriendRequest = (data: { requestId: string }) => {
+    if (data.requestId === requestId) {
+      refreshPage();
+    }
+  };
+
   useEffect(() => {
     if (socket) {
       socket.on("accept_friend_request", refreshPage);
+      socket.on("reject_friend_request", handleRejectFriendRequest);
     }
 
     return () => {
       if (socket) {
         socket.off("accept_friend_request", refreshPage);
+        socket.off("reject_friend_request", handleRejectFriendRequest);
       }
     };
-  }, [socket, router, refreshPage]);
+  }, [socket, refreshPage, handleRejectFriendRequest]);
 
   const cancelRequestHandler = async () => {
     const deleteRequestResult = await deleteFriendRequest(requestId);
