@@ -34,13 +34,19 @@ const FriendList = ({}: FriendListProps) => {
     refetch();
   };
 
+  const handleRemoveFriend = () => {
+    refetch();
+  };
+
   useEffect(() => {
     socket?.on("accept_friend_request", handleAcceptFriendRequest);
+    socket?.on("remove_friend", handleRemoveFriend);
 
     return () => {
       socket?.off("accept_friend_request", handleAcceptFriendRequest);
+      socket?.off("remove_friend", handleRemoveFriend);
     };
-  }, [socket, handleAcceptFriendRequest]);
+  }, [socket, handleAcceptFriendRequest, handleRemoveFriend]);
 
   // Show a loading spinner while fetching friends initially, or while refetching in case of an error. If the friends are being refetched without an error, we'll show the previous friends while the new friends are being fetched.
   if (isLoading || (isRefetching && isError)) {
