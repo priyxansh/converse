@@ -7,6 +7,8 @@ import FriendCard from "./FriendCard";
 import { getFriends } from "@/actions/friends/getFriends";
 import Link from "next/link";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useSocket } from "@/providers/SocketProvider";
+import { useEffect } from "react";
 
 type FriendListProps = {};
 
@@ -25,6 +27,20 @@ const FriendList = ({}: FriendListProps) => {
       return friends;
     },
   });
+
+  const { socket } = useSocket();
+
+  const handleAcceptFriendRequest = () => {
+    refetch();
+  };
+
+  useEffect(() => {
+    socket?.on("accept_friend_request", handleAcceptFriendRequest);
+
+    return () => {
+      socket?.off("accept_friend_request", handleAcceptFriendRequest);
+    };
+  }, [socket, handleAcceptFriendRequest]);
 
   // Show a loading spinner while fetching friends initially, or while refetching in case of an error. If the friends are being refetched without an error, we'll show the previous friends while the new friends are being fetched.
   if (isLoading || (isRefetching && isError)) {

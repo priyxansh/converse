@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import FriendRequestCard from "./FriendRequestCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useSocket } from "@/providers/SocketProvider";
+import { useEffect } from "react";
 
 type FriendRequestListProps = {};
 
@@ -23,6 +25,20 @@ const FriendRequestList = ({}: FriendRequestListProps) => {
       return friendRequests;
     },
   });
+
+  const { socket } = useSocket();
+
+  const handleReceiveFriendRequest = () => {
+    refetch();
+  };
+
+  useEffect(() => {
+    socket?.on("receive_friend_request", handleReceiveFriendRequest);
+
+    return () => {
+      socket?.off("receive_friend_request", handleReceiveFriendRequest);
+    };
+  }, [socket, handleReceiveFriendRequest]);
 
   // Show a loading spinner while fetching friend requests initially, or while refetching in case of an error. If the friend requests are being refetched without an error, we'll show the previous friend requests while the new friend requests are being fetched.
   if (isLoading || (isRefetching && isError)) {
