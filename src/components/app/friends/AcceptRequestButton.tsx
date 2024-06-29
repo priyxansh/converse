@@ -53,6 +53,7 @@ const AcceptRequestButton = ({
       senderUsername: username,
       receiverUsername: receiverUsername,
       receiverName: receiverName,
+      requestId: requestId,
     });
 
     // Show success toast

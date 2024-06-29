@@ -28,19 +28,25 @@ const CancelRequestButton = ({ requestId }: CancelRequestButtonProps) => {
     }
   };
 
+  const handleAcceptFriendRequest = (data: { requestId: string }) => {
+    if (data.requestId === requestId) {
+      refreshPage();
+    }
+  };
+
   useEffect(() => {
     if (socket) {
-      socket.on("accept_friend_request", refreshPage);
+      socket.on("accept_friend_request", handleAcceptFriendRequest);
       socket.on("reject_friend_request", handleRejectFriendRequest);
     }
 
     return () => {
       if (socket) {
-        socket.off("accept_friend_request", refreshPage);
+        socket.off("accept_friend_request", handleAcceptFriendRequest);
         socket.off("reject_friend_request", handleRejectFriendRequest);
       }
     };
-  }, [socket, refreshPage, handleRejectFriendRequest]);
+  }, [socket, handleAcceptFriendRequest, handleRejectFriendRequest]);
 
   const cancelRequestHandler = async () => {
     const deleteRequestResult = await deleteFriendRequest(requestId);
