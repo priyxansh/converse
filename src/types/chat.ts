@@ -65,3 +65,34 @@ export type FormattedChat = {
   isLastMessageSentByUser: boolean;
   unreadCount: number;
 };
+
+export type FormattedMessage = Message<{
+  select: {
+    id: true;
+    content: true;
+    createdAt: true;
+    sender: {
+      select: {
+        id: true;
+        name: true;
+        username: true;
+        image: true;
+      };
+    };
+  };
+}> &
+  Partial<
+    Message<{
+      select: {
+        status: true;
+        readBy: {
+          select: {
+            id: true;
+            name: true;
+            username: true;
+            image: true;
+          };
+        };
+      };
+    }>
+  >;
