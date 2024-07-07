@@ -31,26 +31,37 @@ const SocketProvider = ({ children }: SocketProviderProps) => {
   }, []);
 
   // Join the socket room with the user's username
-  useEffect(() => {
+  const joinRoom = () => {
     if (socket && session?.user) {
       socket.emit("join", session.user.username);
     }
-  }, [socket, session]);
+  };
+
+  useEffect(() => {
+    joinRoom();
+  }, [socket, session, joinRoom]);
 
   // Listen for socket events
   useEffect(() => {
     if (socket) {
+      socket.on("connect", joinRoom);
       socket.on("receive_friend_request", sendFriendRequestController);
       socket.on("accept_friend_request", acceptFriendRequestController);
     }
 
     return () => {
       if (socket) {
+        socket.off("connect", joinRoom);
         socket.off("receive_friend_request", sendFriendRequestController);
         socket.off("accept_friend_request", acceptFriendRequestController);
       }
     };
-  }, [socket]);
+  }, [
+    socket,
+    joinRoom,
+    sendFriendRequestController,
+    acceptFriendRequestController,
+  ]);
 
   // Disconnect the socket when the component unmounts
   useEffect(() => {
