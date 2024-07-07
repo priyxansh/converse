@@ -75,7 +75,10 @@ export const getUserChats = async () => {
     });
 
     // Format the chats
-    const formattedChats = await formatChats(chats);
+    const formattedChats = formatChats({
+      chats,
+      userId: session.user.id,
+    });
 
     return {
       success: true,
