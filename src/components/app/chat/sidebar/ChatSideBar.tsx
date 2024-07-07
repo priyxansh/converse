@@ -41,7 +41,7 @@ const ChatSideBar = ({}: ChatSideBarProps) => {
     return (
       <aside
         className={`px-4 h-full border-r md:max-w-[350px] flex-grow place-items-center ${
-          isChatOpen ? "hidden md:grid" : ""
+          isChatOpen ? "hidden md:grid" : "grid"
         }`}
       >
         <Spinner />
