@@ -23,7 +23,7 @@ const ChatSideBar = ({}: ChatSideBarProps) => {
     isError,
     refetch,
   } = useQuery({
-    queryKey: ["chat"],
+    queryKey: ["chats"],
     queryFn: async () => {
       const response = await getUserChats();
 
