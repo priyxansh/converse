@@ -5,6 +5,11 @@ import {
   formatDistanceToNowStrict,
 } from "date-fns";
 
+type GetFormattedDateOptions = {
+  addSuffix?: boolean;
+  type?: "relative" | "absolute";
+};
+
 /**
  * Formats a given date into a human-readable string.
  * If the date is within the last 24 hours, it returns a relative time string.
@@ -13,9 +18,19 @@ import {
  * @param date - The date to be formatted.
  * @returns The formatted date string.
  */
-export const getFormattedDate = (date: Date) => {
+export const getFormattedDate = (
+  date: Date,
+  { type = "relative", addSuffix = true }: GetFormattedDateOptions = {
+    addSuffix: true,
+    type: "relative",
+  }
+) => {
   if (differenceInHours(new Date(), date) < 24) {
-    return formatDistanceToNowStrict(date, { addSuffix: true });
+    if (type === "relative") {
+      return formatDistanceToNowStrict(date, { addSuffix: addSuffix });
+    }
+
+    return formatDate(date, "h:mm a");
   }
 
   if (differenceInYears(new Date(), date) === 0) {

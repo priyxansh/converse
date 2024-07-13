@@ -6,6 +6,8 @@ import { getChatInformation } from "@/actions/chat/getChatInformation";
 import { parseChatName } from "@/utils/parseChatName";
 import Spinner from "@/components/global/Spinner";
 import { Button } from "@/components/ui/button";
+import ChatMessages from "./messages/ChatMessages";
+import ChatToolbar from "./messages/ChatToolbar";
 
 type ChatProps = {
   id: string;
@@ -62,7 +64,7 @@ const Chat = ({ id }: ChatProps) => {
   }
 
   return (
-    <div>
+    <div className="flex flex-col h-full">
       <ChatHeader
         conversationName={parseChatName({
           name: chat.name,
@@ -71,6 +73,8 @@ const Chat = ({ id }: ChatProps) => {
           userId: chat.userId,
         })}
       />
+      <ChatMessages chatId={id} />
+      <ChatToolbar chatId={id} />
     </div>
   );
 };
