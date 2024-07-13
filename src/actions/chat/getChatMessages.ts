@@ -39,6 +39,7 @@ export const getChatMessages = async (chatId: string) => {
         content: true,
         createdAt: true,
         status: true,
+        type: true,
         readBy: {
           select: {
             id: true,

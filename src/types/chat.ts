@@ -70,6 +70,7 @@ export type FormattedMessage = Message<{
   select: {
     id: true;
     content: true;
+    type: true;
     createdAt: true;
     sender: {
       select: {
