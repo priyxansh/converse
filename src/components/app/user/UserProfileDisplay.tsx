@@ -40,12 +40,12 @@ const UserProfileDisplay = async ({ username }: UserProfileDisplayProps) => {
 
   // Check if user is friends with the current user
   const isFriend = user.friendsOf.some(
-    (friend) => friend.username === session?.user.username
+    (friend) => friend.username === session?.user.username,
   );
 
   // Check if a friend request has been sent
   const requestSentId = user.requestsReceived.find(
-    (request) => request.senderId === session?.user.id
+    (request) => request.senderId === session?.user.id,
   )?.id;
 
   return (

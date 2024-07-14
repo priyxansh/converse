@@ -10,7 +10,7 @@ const excludedPaths = middlewareConfig.excludedPaths.withRedirectToSetPassword;
  * @param middleware - The next middleware.
  */
 export const withRedirectToSetPassword = (
-  middleware: Middleware<NextAuthRequest>
+  middleware: Middleware<NextAuthRequest>,
 ) => {
   return (req: NextAuthRequest) => {
     const session = req.auth;

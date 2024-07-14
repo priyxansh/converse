@@ -13,7 +13,7 @@ import { refreshSession } from "./refreshSession";
  * @returns Returns success and error if any
  */
 export const completeProfile = async (
-  data: z.infer<typeof completeProfileSchema>
+  data: z.infer<typeof completeProfileSchema>,
 ) => {
   try {
     const session = await auth();
@@ -55,7 +55,7 @@ export const completeProfile = async (
 
     if (!refreshSessionResult.success) {
       throw new Error(
-        `Failed to update the session: ${refreshSessionResult.error?.message}`
+        `Failed to update the session: ${refreshSessionResult.error?.message}`,
       );
     }
 

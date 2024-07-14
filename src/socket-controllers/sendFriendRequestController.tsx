@@ -14,6 +14,6 @@ export const sendFriendRequestController = (data: {
         {data.senderUsername})
       </span>{" "}
       has sent you a friend request.
-    </span>
+    </span>,
   );
 };

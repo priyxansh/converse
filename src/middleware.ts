@@ -7,9 +7,9 @@ import { withRedirectToCompleteProfile } from "./middlewares/withRedirectToCompl
 export default withAuth(
   withRedirectToAuth(
     withRedirectToSetPassword(
-      withRedirectToCompleteProfile(() => NextResponse.next())
-    )
-  )
+      withRedirectToCompleteProfile(() => NextResponse.next()),
+    ),
+  ),
 );
 
 export const config = {

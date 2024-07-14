@@ -53,14 +53,14 @@ const ChatItem = ({
                 <span>
                   {getSenderName(
                     isLastMessageSentByUser,
-                    lastMessage.sender.name as string
+                    lastMessage.sender.name as string,
                   )}{" "}
                   · {getFormattedDate(lastMessage.createdAt)}
                 </span>
                 <span>
                   {getReadReceiptIcon(
                     isLastMessageSentByUser,
-                    lastMessageStatus
+                    lastMessageStatus,
                   )}
                 </span>
               </span>

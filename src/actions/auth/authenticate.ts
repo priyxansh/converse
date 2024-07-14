@@ -26,7 +26,7 @@ export const authenticate = async (options: AuthenticateOptions) => {
 
       // Parse the credentials
       const parsedCredentials = await userCredentialsSchema.parseAsync(
-        options.credentials
+        options.credentials,
       );
 
       const { isSignUp } = options;
@@ -36,7 +36,7 @@ export const authenticate = async (options: AuthenticateOptions) => {
       if (isSignUp) {
         // Check if user with the provided email already exists
         const isUserExisting = await checkExistingUserByEmail(
-          options.credentials.email
+          options.credentials.email,
         );
 
         // Set error if user already exists
@@ -94,7 +94,7 @@ export const authenticate = async (options: AuthenticateOptions) => {
       // Check if password is correct
       const isPasswordCorrect = await comparePassword(
         password,
-        existingUser.password
+        existingUser.password,
       );
 
       // Set error if password is incorrect

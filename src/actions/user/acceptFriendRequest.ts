@@ -13,7 +13,7 @@ import { redirect } from "next/navigation";
  */
 export const acceptFriendRequest = async (
   requestId: string,
-  username: string
+  username: string,
 ) => {
   const session = await auth();
 

@@ -17,7 +17,7 @@ type SearchUsersByUsernameOptions = {
  */
 export const searchUsersByUsername = async (
   username: string,
-  options: SearchUsersByUsernameOptions = {}
+  options: SearchUsersByUsernameOptions = {},
 ) => {
   const session = await auth();
 

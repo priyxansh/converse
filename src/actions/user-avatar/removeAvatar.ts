@@ -37,7 +37,7 @@ export const removeAvatar = async () => {
     // Remove avatar from UploadThing bucket
     if (session.user.avatarKey) {
       const deleteFilesResult = await utapi.deleteFiles(
-        session.user.avatarKey as string
+        session.user.avatarKey as string,
       );
 
       if (!deleteFilesResult.success) {

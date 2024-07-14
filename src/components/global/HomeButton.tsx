@@ -3,12 +3,10 @@ import { ChevronLeftIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 
 type HomeButtonProps = {
-    className?: string;
+  className?: string;
 };
 
-const HomeButton = ({
-    className
-}: HomeButtonProps) => {
+const HomeButton = ({ className }: HomeButtonProps) => {
   return (
     <Button asChild variant={"ghost"} className={className}>
       <Link href="/" className="flex items-center justify-center">

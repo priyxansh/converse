@@ -30,7 +30,7 @@ const RemoveFriendDialog = ({ username }: RemoveFriendDialogProps) => {
     // If an error occurs, show an error toast
     if (!removeFriendResult.success) {
       toast.error(
-        "Something went wrong while removing friend. Please try again."
+        "Something went wrong while removing friend. Please try again.",
       );
       return;
     }

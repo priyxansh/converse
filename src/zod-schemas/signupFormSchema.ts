@@ -6,7 +6,7 @@ export const signupFormSchema = userCredentialsSchema
   .extend({
     password: basePasswordSchema.shape.password.regex(
       passwordRegex,
-      "Password must contain at least one uppercase letter, one lowercase letter, and one number"
+      "Password must contain at least one uppercase letter, one lowercase letter, and one number",
     ),
     confirmPassword: basePasswordSchema.shape.confirmPassword,
   })

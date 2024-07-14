@@ -11,7 +11,7 @@ import { CheckCheckIcon, CheckIcon } from "lucide-react";
 export const getReadReceiptIcon = (
   isSentByUser: boolean,
   lastMessageStatus: $Enums.MessageStatus,
-  size = 16
+  size = 16,
 ) => {
   if (!isSentByUser) {
     return null;

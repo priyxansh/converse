@@ -14,6 +14,6 @@ export const acceptFriendRequestController = (data: {
         (@
         {data.receiverUsername})
       </span>
-    </span>
+    </span>,
   );
 };

@@ -96,7 +96,7 @@ const FriendRequestList = ({}: FriendRequestListProps) => {
               image={image}
               bio={bio}
             />
-          )
+          ),
         )}
       </section>
     </ScrollArea>

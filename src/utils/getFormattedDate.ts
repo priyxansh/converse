@@ -23,7 +23,7 @@ export const getFormattedDate = (
   { type = "relative", addSuffix = true }: GetFormattedDateOptions = {
     addSuffix: true,
     type: "relative",
-  }
+  },
 ) => {
   if (differenceInHours(new Date(), date) < 24) {
     if (type === "relative") {

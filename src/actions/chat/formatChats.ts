@@ -58,7 +58,7 @@ export const formatChats = ({
               );
             }).length,
       };
-    }
+    },
   );
 
   return formattedChats;

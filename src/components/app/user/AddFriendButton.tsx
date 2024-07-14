@@ -29,7 +29,7 @@ const AddFriendButton = ({
     // Show toast if the target user has already sent a friend request to the current user
     if (sendFriendRequestResult.error?.name === "FriendRequestExists") {
       toast.error(
-        "This user has already sent you a friend request. Either accept the request or reject it."
+        "This user has already sent you a friend request. Either accept the request or reject it.",
       );
       return;
     }

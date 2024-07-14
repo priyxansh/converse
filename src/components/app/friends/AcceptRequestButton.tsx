@@ -30,7 +30,7 @@ const AcceptRequestButton = ({
   const acceptRequestHandler = async () => {
     const acceptFriendRequestResult = await acceptFriendRequest(
       requestId,
-      username
+      username,
     );
 
     // Show toast on errors

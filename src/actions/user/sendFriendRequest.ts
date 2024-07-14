@@ -33,7 +33,7 @@ export const sendFriendRequest = async (username: string) => {
 
     if (existingFriendRequest) {
       const error = new Error(
-        "This user has already sent you a friend request."
+        "This user has already sent you a friend request.",
       );
       error.name = "FriendRequestExists";
       throw error;

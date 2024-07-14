@@ -96,4 +96,6 @@ export type FormattedMessage = Message<{
         };
       };
     }>
-  >;
+  > & {
+    isSentByUser: boolean;
+  };

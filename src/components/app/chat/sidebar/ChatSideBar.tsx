@@ -99,9 +99,7 @@ const ChatSideBar = ({}: ChatSideBarProps) => {
         isChatOpen ? "hidden md:block" : ""
       }`}
     >
-      {chats?.map((chat) => (
-        <ChatItem key={chat.id} chat={chat} />
-      ))}
+      {chats?.map((chat) => <ChatItem key={chat.id} chat={chat} />)}
     </aside>
   );
 };

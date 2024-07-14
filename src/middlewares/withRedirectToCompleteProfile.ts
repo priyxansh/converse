@@ -11,7 +11,7 @@ const excludedPaths =
  * @param middleware - The next middleware.
  */
 export const withRedirectToCompleteProfile = (
-  middleware: Middleware<NextAuthRequest>
+  middleware: Middleware<NextAuthRequest>,
 ) => {
   return (req: NextAuthRequest) => {
     const session = req.auth;
