@@ -27,8 +27,6 @@ export const getChatMessages = async (chatId: string) => {
       throw new Error(chatInformation.error || "Chat not found.");
     }
 
-    const chat = chatInformation.data;
-
     // Fetch the chat's messages
     const messages = await prisma.message.findMany({
       where: {
@@ -62,18 +60,10 @@ export const getChatMessages = async (chatId: string) => {
       },
     });
 
-    // If it is a one-to-one chat, return the messages as they are
-    if (!chat.isGroup) {
-      return {
-        success: true,
-        data: messages,
-      };
-    }
-
-    // If it is a group chat, format the messages to hide read receipts and status for messages sent by other users
-    const formattedMessages = messages.map((message) =>
-      formatMessage({ message, userId: session.user.id })
-    );
+    // Format messages to hide read receipts and status for messages sent by other users and append isSentByUser property
+    const formattedMessages = messages.map((message) => {
+      return formatMessage({ message, userId: session.user.id });
+    });
 
     return {
       success: true,
