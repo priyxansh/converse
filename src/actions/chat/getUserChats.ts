@@ -3,7 +3,7 @@
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
-import { formatChats } from "./formatChats";
+import { formatChats } from "../../utils/chat/formatChats";
 
 /**
  * Retrieves all chats with their latest message for the current user.

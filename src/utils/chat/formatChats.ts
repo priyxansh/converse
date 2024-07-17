@@ -1,5 +1,3 @@
-"use server";
-
 import { ClientChat, FormattedChat } from "@/types/chat";
 import { parseChatName } from "@/utils/parseChatName";
 
@@ -58,7 +56,7 @@ export const formatChats = ({
               );
             }).length,
       };
-    },
+    }
   );
 
   return formattedChats;
