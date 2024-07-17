@@ -7,7 +7,7 @@ import { parseChatName } from "@/utils/parseChatName";
 import Spinner from "@/components/global/Spinner";
 import { Button } from "@/components/ui/button";
 import ChatMessages from "./messages/ChatMessages";
-import ChatToolbar from "./messages/ChatToolbar";
+import ChatToolbar from "./ChatToolbar";
 
 type ChatProps = {
   id: string;
