@@ -38,7 +38,7 @@ const RejectRequestButton = ({
     }
 
     // Refetch query
-    queryClient.refetchQueries({
+    await queryClient.refetchQueries({
       queryKey: ["friendRequests"],
     });
 
