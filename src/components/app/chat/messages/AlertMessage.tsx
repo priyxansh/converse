@@ -9,7 +9,7 @@ type AlertMessageProps = {
 const AlertMessage = ({ message, className }: AlertMessageProps) => {
   return (
     <div className={`flex items-center justify-center relative ${className}`}>
-      <p className="text-gray-600 dark:text-gray-400 text-sm">
+      <p className="text-gray-600 dark:text-gray-400 text-xs">
         {message.content}
       </p>
       <span className="absolute right-0 top-1/2 -translate-y-1/2 text-[10px] text-muted-foreground">
