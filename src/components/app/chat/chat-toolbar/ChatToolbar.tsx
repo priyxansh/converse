@@ -1,6 +1,6 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
+import NewMessageForm from "./NewMessageForm";
 
 type ChatToolbarProps = {
   chatId: string;
@@ -8,8 +8,8 @@ type ChatToolbarProps = {
 
 const ChatToolbar = ({ chatId }: ChatToolbarProps) => {
   return (
-    <section className="w-full py-2 px-4 flex gap-2">
-      <Input placeholder="Type a message" className="bg-muted" />
+    <section className="w-full py-2 px-2">
+      <NewMessageForm chatId={chatId} />
     </section>
   );
 };
