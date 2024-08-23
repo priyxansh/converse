@@ -7,9 +7,14 @@ import { redirect } from "next/navigation";
 type SendMessageOptions = {
   chatId: string;
   message: string;
+  messageId: string;
 };
 
-export const sendMessage = async ({ chatId, message }: SendMessageOptions) => {
+export const sendMessage = async ({
+  chatId,
+  message,
+  messageId,
+}: SendMessageOptions) => {
   const session = await auth();
 
   if (!session) {
@@ -19,6 +24,7 @@ export const sendMessage = async ({ chatId, message }: SendMessageOptions) => {
   try {
     const newMessage = await prisma.message.create({
       data: {
+        id: messageId,
         content: message,
         chat: {
           connect: {
