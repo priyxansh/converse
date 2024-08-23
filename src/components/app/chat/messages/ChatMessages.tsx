@@ -6,12 +6,15 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useQuery } from "@tanstack/react-query";
 import MessageWrapper from "./MessageWrapper";
+import { useNewMessages } from "@/stores/newMessagesStore";
 
 type ChatMessagesProps = {
   chatId: string;
 };
 
 const ChatMessages = ({ chatId }: ChatMessagesProps) => {
+  const { newMessages } = useNewMessages();
+
   const {
     data: messages,
     isLoading,
@@ -83,6 +86,9 @@ const ChatMessages = ({ chatId }: ChatMessagesProps) => {
               className="first:mt-4"
             />
           );
+        })}
+        {newMessages.map((message) => {
+          return <MessageWrapper key={message.id} message={message} />;
         })}
       </section>
     </ScrollArea>

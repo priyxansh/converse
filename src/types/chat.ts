@@ -1,6 +1,8 @@
 import { $Enums } from "@prisma/client";
 import { Chat, Message } from "./prisma";
 
+export type MessageStatus = $Enums.MessageStatus | "PENDING" | "FAILED";
+
 export type ClientChat = Chat<{
   include: {
     messages: {
@@ -85,7 +87,6 @@ export type FormattedMessage = Message<{
   Partial<
     Message<{
       select: {
-        status: true;
         readBy: {
           select: {
             id: true;
@@ -96,6 +97,9 @@ export type FormattedMessage = Message<{
         };
       };
     }>
-  > & {
+  > &
+  Partial<{
+    status: MessageStatus;
+  }> & {
     isSentByUser: boolean;
   };

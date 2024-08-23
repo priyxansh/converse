@@ -8,12 +8,23 @@ import Spinner from "@/components/global/Spinner";
 import { Button } from "@/components/ui/button";
 import ChatMessages from "./messages/ChatMessages";
 import ChatToolbar from "./chat-toolbar/ChatToolbar";
+import { useNewMessages } from "@/stores/newMessagesStore";
+import { useEffect } from "react";
 
 type ChatProps = {
   id: string;
 };
 
 const Chat = ({ id }: ChatProps) => {
+  // Clear new messages when the chat component is unmounted
+  const { clearNewMessages } = useNewMessages();
+
+  useEffect(() => {
+    return () => {
+      clearNewMessages();
+    };
+  }, [clearNewMessages]);
+
   const {
     data: chat,
     isLoading,
