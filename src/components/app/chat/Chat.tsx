@@ -47,17 +47,24 @@ const Chat = ({ id }: ChatProps) => {
     }
   };
 
+  // Join the chat room on connect to resume listening for new messages after a reconnection
+  const handleConnect = () => {
+    socket?.emit("join", id);
+  };
+
   useEffect(() => {
     if (socket) {
       socket.on("message:receive", handleNewMessage);
+      socket.on("connect", handleConnect);
     }
 
     return () => {
       if (socket) {
         socket.off("message:receive", handleNewMessage);
+        socket.off("connect", handleConnect);
       }
     };
-  }, [socket, appendNewMessage]);
+  }, [socket, appendNewMessage, handleConnect, handleNewMessage, id]);
 
   // Store chatId and clear new messages on mount and unmount
   useEffect(() => {
