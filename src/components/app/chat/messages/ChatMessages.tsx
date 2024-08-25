@@ -7,6 +7,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useQuery } from "@tanstack/react-query";
 import MessageWrapper from "./MessageWrapper";
 import { useNewMessages } from "@/stores/newMessagesStore";
+import { useEffect, useRef } from "react";
+import { getScrollPercentage } from "@/utils/getScrollPercentage";
 
 type ChatMessagesProps = {
   chatId: string;
@@ -14,6 +16,7 @@ type ChatMessagesProps = {
 
 const ChatMessages = ({ chatId }: ChatMessagesProps) => {
   const { newMessages } = useNewMessages();
+  const scrollAreaRef = useRef<HTMLDivElement | null>(null);
 
   const {
     data: messages,
@@ -36,6 +39,16 @@ const ChatMessages = ({ chatId }: ChatMessagesProps) => {
     refetchOnWindowFocus: false,
     refetchInterval: false,
   });
+
+  // Scroll to the bottom of the chat messages when new messages are added
+  useEffect(() => {
+    if (
+      scrollAreaRef.current &&
+      getScrollPercentage(scrollAreaRef.current) > 90
+    ) {
+      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+    }
+  }, [newMessages, messages]);
 
   // Show a loading spinner while fetching the chat messages initially, or while refetching in case of an error. If the chat messages are being refetched without an error, we'll show the previous messages while the new messages are being fetched.
   if (isLoading || (isRefetching && isError)) {
@@ -79,7 +92,7 @@ const ChatMessages = ({ chatId }: ChatMessagesProps) => {
   }
 
   return (
-    <ScrollArea className="h-full">
+    <ScrollArea className="h-full" viewportRef={scrollAreaRef}>
       <section className="flex flex-col space-y-4 px-2 md:px-4">
         {messages.map((message) => {
           return (
