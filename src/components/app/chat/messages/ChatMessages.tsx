@@ -9,6 +9,8 @@ import MessageWrapper from "./MessageWrapper";
 import { useNewMessages } from "@/stores/newMessagesStore";
 import { useEffect, useRef } from "react";
 import { getScrollPercentage } from "@/utils/getScrollPercentage";
+import { useTheme } from "next-themes";
+import Image from "next/image";
 
 type ChatMessagesProps = {
   chatId: string;
@@ -17,6 +19,7 @@ type ChatMessagesProps = {
 const ChatMessages = ({ chatId }: ChatMessagesProps) => {
   const { newMessages } = useNewMessages();
   const scrollAreaRef = useRef<HTMLDivElement | null>(null);
+  const { theme } = useTheme();
 
   const {
     data: messages,
@@ -92,10 +95,26 @@ const ChatMessages = ({ chatId }: ChatMessagesProps) => {
   }
 
   return (
-    <ScrollArea
-      className="h-full dark:bg-[url('https://utfs.io/f/90dd7d99-0899-4f75-a05f-635b511f603a-ef9ija.png')] bg-[url('https://utfs.io/f/c5c0a910-299b-49e9-851d-977669e05808-j8mxkm.png')] bg-no-repeat bg-cover"
-      viewportRef={scrollAreaRef}
-    >
+    <ScrollArea className="h-full relative" viewportRef={scrollAreaRef}>
+      {theme === "dark" ? (
+        <Image
+          className="absolute inset-0 object-cover"
+          fill
+          src={
+            "https://utfs.io/f/90dd7d99-0899-4f75-a05f-635b511f603a-ef9ija.png"
+          }
+          alt="Chat background dark"
+        />
+      ) : (
+        <Image
+          className="absolute inset-0 object-cover"
+          fill
+          src={
+            "https://utfs.io/f/c5c0a910-299b-49e9-851d-977669e05808-j8mxkm.png"
+          }
+          alt="Chat background light"
+        />
+      )}
       <section className="flex flex-col space-y-4 px-2 md:px-4">
         {messages.map((message) => {
           return (
