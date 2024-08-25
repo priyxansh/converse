@@ -32,6 +32,9 @@ const ChatMessages = ({ chatId }: ChatMessagesProps) => {
         throw new Error(messages.error);
       }
     },
+    refetchOnMount: "always",
+    refetchOnWindowFocus: false,
+    refetchInterval: false,
   });
 
   // Show a loading spinner while fetching the chat messages initially, or while refetching in case of an error. If the chat messages are being refetched without an error, we'll show the previous messages while the new messages are being fetched.

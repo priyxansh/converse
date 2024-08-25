@@ -6,6 +6,8 @@ import { sendMessage } from "@/actions/chat/sendMessage";
 import { useRef } from "react";
 import { useNewMessages } from "@/stores/newMessagesStore";
 import { useSession } from "next-auth/react";
+import { useSocket } from "@/providers/SocketProvider";
+import { FormattedMessage } from "@/types/chat";
 
 type NewMessageFormProps = {
   chatId: string;
@@ -16,20 +18,22 @@ const NewMessageForm = ({ chatId }: NewMessageFormProps) => {
 
   const { data: session } = useSession();
   const { appendNewMessage, setMessageStatus } = useNewMessages();
+  const { socket } = useSocket();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const message = formData.get("message") as string | undefined | null;
+    const messageContent = formData.get("message") as string | undefined | null;
 
-    if (!message || !session) return;
+    if (!messageContent || !session) return;
 
+    // Generate a random message ID
     const messageId = crypto.randomUUID();
 
-    appendNewMessage({
+    const message: Omit<FormattedMessage, "isSentByUser"> = {
       id: messageId,
-      content: message,
+      content: messageContent,
       type: "TEXT",
       sender: {
         id: session.user.id,
@@ -37,19 +41,27 @@ const NewMessageForm = ({ chatId }: NewMessageFormProps) => {
         name: session.user.name!,
         image: session.user.image!,
       },
-      isSentByUser: true,
       createdAt: new Date(),
       status: "PENDING",
-    });
+    };
+
+    // Add the message to the local new messages store
+    appendNewMessage({ ...message, isSentByUser: true });
 
     // Send message to the server
-    sendMessage({ chatId, message, messageId }).then((response) => {
-      if (response.success) {
-        setMessageStatus(messageId, "SENT");
+    sendMessage({ chatId, message: messageContent, messageId }).then(
+      (response) => {
+        if (response.success) {
+          setMessageStatus(messageId, "SENT");
 
-        // Todo: Add socket event to send message to other users
+          // Emit socket event to send message to other users in the chat room
+          socket?.emit("message:send", {
+            chatId,
+            message,
+          });
+        }
       }
-    });
+    );
 
     // Clear the form
     formRef.current?.reset();

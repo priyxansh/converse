@@ -10,20 +10,65 @@ import ChatMessages from "./messages/ChatMessages";
 import ChatToolbar from "./chat-toolbar/ChatToolbar";
 import { useNewMessages } from "@/stores/newMessagesStore";
 import { useEffect } from "react";
+import { useSocket } from "@/providers/SocketProvider";
+import { FormattedMessage } from "@/types/chat";
 
 type ChatProps = {
   id: string;
 };
 
 const Chat = ({ id }: ChatProps) => {
-  // Clear new messages when the chat component is unmounted
-  const { clearNewMessages } = useNewMessages();
+  const { socket } = useSocket();
+  const { appendNewMessage, clearNewMessages, setChatId } = useNewMessages();
+
+  // Join the chat room when the chat component is mounted and leave when it's unmounted
+  useEffect(() => {
+    if (socket) {
+      socket.emit("join", id);
+    }
+
+    return () => {
+      if (socket) {
+        socket.emit("leave", id);
+      }
+    };
+  }, [socket, id]);
+
+  // Listen for new messages and append them to the newMessages store
+  const handleNewMessage = ({
+    chatId,
+    message,
+  }: {
+    chatId: string;
+    message: Omit<FormattedMessage, "isSentByUser">;
+  }) => {
+    if (chatId === id) {
+      appendNewMessage({ ...message, isSentByUser: false });
+    }
+  };
 
   useEffect(() => {
+    if (socket) {
+      socket.on("message:receive", handleNewMessage);
+    }
+
+    return () => {
+      if (socket) {
+        socket.off("message:receive", handleNewMessage);
+      }
+    };
+  }, [socket, appendNewMessage]);
+
+  // Store chatId and clear new messages on mount and unmount
+  useEffect(() => {
+    setChatId(id);
+    clearNewMessages();
+
     return () => {
       clearNewMessages();
+      setChatId("");
     };
-  }, [clearNewMessages]);
+  }, [setChatId, clearNewMessages, id]);
 
   const {
     data: chat,
