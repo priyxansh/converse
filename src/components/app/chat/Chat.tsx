@@ -12,6 +12,7 @@ import { useNewMessages } from "@/stores/newMessagesStore";
 import { useEffect } from "react";
 import { useSocket } from "@/providers/SocketProvider";
 import { FormattedMessage } from "@/types/chat";
+import ChatWallpaper from "./ChatWallpaper";
 
 type ChatProps = {
   id: string;
@@ -127,7 +128,7 @@ const Chat = ({ id }: ChatProps) => {
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full relative">
       <ChatHeader
         conversationName={parseChatName({
           name: chat.name,
@@ -136,6 +137,7 @@ const Chat = ({ id }: ChatProps) => {
           userId: chat.userId,
         })}
       />
+      <ChatWallpaper />
       <ChatMessages chatId={id} />
       <ChatToolbar chatId={id} />
     </div>
