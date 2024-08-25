@@ -92,7 +92,10 @@ const ChatMessages = ({ chatId }: ChatMessagesProps) => {
   }
 
   return (
-    <ScrollArea className="h-full" viewportRef={scrollAreaRef}>
+    <ScrollArea
+      className="h-full dark:bg-[url('https://utfs.io/f/90dd7d99-0899-4f75-a05f-635b511f603a-ef9ija.png')] bg-[url('https://utfs.io/f/c5c0a910-299b-49e9-851d-977669e05808-j8mxkm.png')] bg-no-repeat bg-cover"
+      viewportRef={scrollAreaRef}
+    >
       <section className="flex flex-col space-y-4 px-2 md:px-4">
         {messages.map((message) => {
           return (
