@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { type FormattedMessage } from "@/types/chat";
 import { MessageStatus } from "@prisma/client";
 
-type NewMessagesStore = {
+type CurrentChatStore = {
   chatId: string;
   newMessages: FormattedMessage[];
   setChatId: (chatId: string) => void;
@@ -11,7 +11,7 @@ type NewMessagesStore = {
   setMessageStatus: (messageId: string, status: MessageStatus) => void;
 };
 
-export const useNewMessagesStore = create<NewMessagesStore>((set) => ({
+const useCurrentChatStore = create<CurrentChatStore>((set) => ({
   newMessages: [],
   chatId: "",
   setChatId: (chatId) => set({ chatId }),
@@ -27,8 +27,8 @@ export const useNewMessagesStore = create<NewMessagesStore>((set) => ({
   },
 }));
 
-export const useNewMessages = () =>
-  useNewMessagesStore((state) => ({
+export const useCurrentChat = () =>
+  useCurrentChatStore((state) => ({
     chatId: state.chatId,
     setChatId: state.setChatId,
     newMessages: state.newMessages,

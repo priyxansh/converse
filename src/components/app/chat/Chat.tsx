@@ -8,11 +8,11 @@ import Spinner from "@/components/global/Spinner";
 import { Button } from "@/components/ui/button";
 import ChatMessages from "./messages/ChatMessages";
 import ChatToolbar from "./chat-toolbar/ChatToolbar";
-import { useNewMessages } from "@/stores/newMessagesStore";
 import { useEffect } from "react";
 import { useSocket } from "@/providers/SocketProvider";
 import { FormattedMessage } from "@/types/chat";
 import ChatWallpaper from "./ChatWallpaper";
+import { useCurrentChat } from "@/stores/currentChatStore";
 
 type ChatProps = {
   id: string;
@@ -20,7 +20,7 @@ type ChatProps = {
 
 const Chat = ({ id }: ChatProps) => {
   const { socket } = useSocket();
-  const { appendNewMessage, clearNewMessages, setChatId } = useNewMessages();
+  const { appendNewMessage, clearNewMessages, setChatId } = useCurrentChat();
 
   // Join the chat room when the chat component is mounted and leave when it's unmounted
   useEffect(() => {

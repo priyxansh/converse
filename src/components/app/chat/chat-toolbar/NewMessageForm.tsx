@@ -4,10 +4,10 @@ import { Input } from "@/components/ui/input";
 import SendButton from "./SendButton";
 import { sendMessage } from "@/actions/chat/sendMessage";
 import { useRef } from "react";
-import { useNewMessages } from "@/stores/newMessagesStore";
 import { useSession } from "next-auth/react";
 import { useSocket } from "@/providers/SocketProvider";
 import { FormattedMessage } from "@/types/chat";
+import { useCurrentChat } from "@/stores/currentChatStore";
 
 type NewMessageFormProps = {
   chatId: string;
@@ -17,7 +17,7 @@ const NewMessageForm = ({ chatId }: NewMessageFormProps) => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const { data: session } = useSession();
-  const { appendNewMessage, setMessageStatus } = useNewMessages();
+  const { appendNewMessage, setMessageStatus } = useCurrentChat();
   const { socket } = useSocket();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

@@ -6,16 +6,16 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useQuery } from "@tanstack/react-query";
 import MessageWrapper from "./MessageWrapper";
-import { useNewMessages } from "@/stores/newMessagesStore";
 import { useEffect, useRef } from "react";
 import { getScrollPercentage } from "@/utils/getScrollPercentage";
+import { useCurrentChat } from "@/stores/currentChatStore";
 
 type ChatMessagesProps = {
   chatId: string;
 };
 
 const ChatMessages = ({ chatId }: ChatMessagesProps) => {
-  const { newMessages } = useNewMessages();
+  const { newMessages } = useCurrentChat();
   const scrollAreaRef = useRef<HTMLDivElement | null>(null);
 
   const {
