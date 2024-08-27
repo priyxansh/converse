@@ -50,6 +50,13 @@ const ChatMessages = ({ chatId }: ChatMessagesProps) => {
     }
   }, [newMessages, messages]);
 
+  // Scroll to the bottom of the chat messages when the chat messages are initially fetched
+  useEffect(() => {
+    if (scrollAreaRef.current) {
+      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   // Show a loading spinner while fetching the chat messages initially, or while refetching in case of an error. If the chat messages are being refetched without an error, we'll show the previous messages while the new messages are being fetched.
   if (isLoading || (isRefetching && isError)) {
     return (
