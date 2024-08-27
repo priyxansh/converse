@@ -30,7 +30,7 @@ const ChatPage = async ({ params: { id } }: ChatPageProps) => {
   });
 
   return (
-    <main className="overflow-hidden flex-grow flex flex-col">
+    <main className="overflow-hidden flex-grow flex flex-col h-screen">
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Chat id={id} />
       </HydrationBoundary>
