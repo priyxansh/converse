@@ -2,17 +2,23 @@
 
 import Spinner from "@/components/global/Spinner";
 import { Button } from "@/components/ui/button";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ChatItem from "./ChatItem";
 import { getUserChats } from "@/actions/chat/getUserChats";
+import { useSocket } from "@/providers/SocketProvider";
+import { useEffect } from "react";
+import { FormattedChat, FormattedMessage } from "@/types/chat";
 
 type ChatSideBarProps = {};
 
 const ChatSideBar = ({}: ChatSideBarProps) => {
-  // Check if a particular chat is open, since the component is only mounted on /chat and /chat/:id routes. In short, this will be true if the pathname is /chat/:id
   const pathname = usePathname();
+  const { socket } = useSocket();
+  const queryClient = useQueryClient();
+
+  // Check if a particular chat is open, since the component is only mounted on /chat and /chat/:id routes. In short, this will be true if the pathname is /chat/:id
   const isChatOpen = !pathname.endsWith("/chat");
 
   // Fetch all chats using tanstack/react-query
@@ -34,6 +40,41 @@ const ChatSideBar = ({}: ChatSideBarProps) => {
       return response.data;
     },
   });
+
+  // Listen for new messages in real-time
+  const handleNewMessage = ({
+    chatId,
+    message,
+  }: {
+    chatId: string;
+    message: Omit<FormattedMessage, "isSentByUser">;
+  }) => {
+    queryClient.setQueryData<FormattedChat[] | undefined>(
+      ["chats"],
+      (chats: FormattedChat[] | undefined) => {
+        return chats?.map((chat) => {
+          if (chat.id === chatId) {
+            return {
+              ...chat,
+              lastMessage: message,
+            };
+          }
+
+          return chat;
+        });
+      }
+    );
+  };
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("message:receive", handleNewMessage);
+
+    return () => {
+      socket.off("message:receive", handleNewMessage);
+    };
+  }, [socket]);
 
   // Show a loading spinner while fetching chats initially, or while refetching in case of an error. If the chats are being refetched without an error, we'll show the previous chats while the new chats are being fetched.
   if (isLoading || (isRefetching && isError)) {

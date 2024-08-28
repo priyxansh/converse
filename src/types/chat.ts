@@ -63,7 +63,7 @@ export type FormattedChat = {
       };
     };
   }>;
-  lastMessageStatus: $Enums.MessageStatus;
+  lastMessageStatus: MessageStatus;
   isLastMessageSentByUser: boolean;
   unreadCount: number;
 };

@@ -6,8 +6,10 @@ import { sendMessage } from "@/actions/chat/sendMessage";
 import { useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useSocket } from "@/providers/SocketProvider";
-import { FormattedMessage } from "@/types/chat";
+import { FormattedChat, FormattedMessage } from "@/types/chat";
 import { useCurrentChat } from "@/stores/currentChatStore";
+import { getChatInformation } from "@/actions/chat/getChatInformation";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 type NewMessageFormProps = {
   chatId: string;
@@ -19,12 +21,32 @@ const NewMessageForm = ({ chatId }: NewMessageFormProps) => {
   const { data: session } = useSession();
   const { appendNewMessage, setMessageStatus } = useCurrentChat();
   const { socket } = useSocket();
+  const queryClient = useQueryClient();
+
+  // Get the current chat's information using react-query
+  const { data: chat } = useQuery({
+    queryKey: ["chat", chatId],
+    queryFn: async () => {
+      const chat = await getChatInformation(chatId);
+
+      if (chat.success) {
+        return chat.data;
+      } else {
+        throw new Error(chat.error);
+      }
+    },
+  });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
     const messageContent = formData.get("message") as string | undefined | null;
+
+    const recipients =
+      chat?.members
+        ?.filter((member) => member.id !== session?.user.id)
+        .map((member) => member.username) || [];
 
     if (!messageContent || !session) return;
 
@@ -58,7 +80,25 @@ const NewMessageForm = ({ chatId }: NewMessageFormProps) => {
           socket?.emit("message:send", {
             chatId,
             message,
+            recipients,
           });
+
+          // Update the last message in the chats list
+          queryClient.setQueryData<FormattedChat[] | undefined>(
+            ["chats"],
+            (chats: FormattedChat[] | undefined) => {
+              return chats?.map((chat) => {
+                if (chat.id === chatId) {
+                  return {
+                    ...chat,
+                    lastMessage: message,
+                  };
+                }
+
+                return chat;
+              });
+            }
+          );
         }
       }
     );
