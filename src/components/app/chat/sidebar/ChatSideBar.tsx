@@ -39,6 +39,8 @@ const ChatSideBar = ({}: ChatSideBarProps) => {
 
       return response.data;
     },
+    refetchOnWindowFocus: false,
+    refetchInterval: false,
   });
 
   // Listen for new messages in real-time
@@ -62,7 +64,8 @@ const ChatSideBar = ({}: ChatSideBarProps) => {
 
           return chat;
         });
-      }
+      },
+      {}
     );
   };
 
