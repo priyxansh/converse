@@ -92,6 +92,8 @@ const NewMessageForm = ({ chatId }: NewMessageFormProps) => {
                   return {
                     ...chat,
                     lastMessage: message,
+                    unreadCount: 0,
+                    isLastMessageSentByUser: true,
                   };
                 }
 

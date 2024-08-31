@@ -59,6 +59,8 @@ const ChatSideBar = ({}: ChatSideBarProps) => {
             return {
               ...chat,
               lastMessage: message,
+              unreadCount: chat.unreadCount + 1,
+              isLastMessageSentByUser: false,
             };
           }
 
