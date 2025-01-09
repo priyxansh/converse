@@ -1,6 +1,7 @@
 import { FormattedMessage } from "@/types/chat";
 import MessageArrow from "./MessageArrow";
 import TextMessageTimestamp from "./TextMessageTimestamp";
+import { getReadReceiptIcon } from "@/utils/getReadReceiptIcon";
 
 type TextMessageProps = {
   message: FormattedMessage;
@@ -12,6 +13,7 @@ const TextMessage = ({ message, className }: TextMessageProps) => {
 
   return (
     <div
+      data-messageId={message.id}
       className={`relative text-sm sm:text-sm px-3 py-1.5 rounded-lg max-w-10/12 sm:max-w-3/4 flex flex-col ${
         isSentByUser ? "self-end" : "self-start"
       } ${
@@ -21,10 +23,13 @@ const TextMessage = ({ message, className }: TextMessageProps) => {
       } ${className}`}
     >
       <span>{message.content}</span>
-      <TextMessageTimestamp
-        createdAt={message.createdAt}
-        isSentByUser={isSentByUser}
-      />
+      <div className="flex gap-2 items-center">
+        <TextMessageTimestamp
+          createdAt={message.createdAt}
+          isSentByUser={isSentByUser}
+        />
+        {getReadReceiptIcon(isSentByUser, message.status!, 12)}
+      </div>
       <MessageArrow isSentByUser={isSentByUser} />
     </div>
   );
