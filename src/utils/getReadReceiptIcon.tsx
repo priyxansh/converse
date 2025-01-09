@@ -1,5 +1,5 @@
 import { MessageStatus } from "@/types/chat";
-import { CheckCheckIcon, CheckIcon } from "lucide-react";
+import { CheckCheckIcon, CheckIcon, ClockIcon } from "lucide-react";
 
 /**
  * Returns the appropriate read receipt icon based on the message status.
@@ -17,22 +17,18 @@ export const getReadReceiptIcon = (
     return null;
   }
 
-  if (lastMessageStatus === "SENT") {
-    return <CheckIcon size={size} />;
+  if (lastMessageStatus === "PENDING") {
+    return <ClockIcon size={size} />;
   }
 
-  if (lastMessageStatus === "DELIVERED") {
-    return (
-      <>
-        <CheckCheckIcon size={size} />
-      </>
-    );
+  if (lastMessageStatus === "SENT") {
+    return <CheckIcon size={size} />;
   }
 
   if (lastMessageStatus === "READ") {
     return (
       <>
-        <CheckCheckIcon size={size} className="text-primary" />
+        <CheckCheckIcon size={size} />
       </>
     );
   }
