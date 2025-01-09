@@ -40,6 +40,9 @@ model User {
   messagesReceived Message[] @relation("Recipient")
   messagesRead     Message[] @relation("ReadBy")
 
+  // Read receipts
+  readReceipts ReadReceipt[]
+
   lastActive DateTime @default(now())
   createdAt  DateTime @default(now())
 }
@@ -69,6 +72,8 @@ model Chat {
   group   Group?  @relation("Chat")
 
   messages Message[] @relation("ChatMessages")
+
+  readReceipts ReadReceipt[]
 
   createdAt DateTime @default(now())
 }
@@ -119,7 +124,23 @@ model Message {
   chatId String
   chat   Chat   @relation("ChatMessages", fields: [chatId], references: [id])
 
-  readBy User[] @relation("ReadBy")
+  readBy       User[]        @relation("ReadBy")
+  readReceipts ReadReceipt[]
 
   createdAt DateTime @default(now())
+}
+
+model ReadReceipt {
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  chatId String
+  chat   Chat   @relation(fields: [chatId], references: [id])
+
+  messageId String
+  message   Message @relation(fields: [messageId], references: [id])
+
+  readAt DateTime @default(now())
+
+  @@id([userId, chatId])
 }
