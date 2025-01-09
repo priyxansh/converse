@@ -101,7 +101,6 @@ enum MessageType {
 
 enum MessageStatus {
   SENT
-  DELIVERED
   READ
 }
 
